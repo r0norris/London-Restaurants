@@ -12,7 +12,7 @@
       "id": "quality-chop-house",
       "name": "Quality Chop House",
       "category": "chop",
-      "highlight": false,
+      "highlight": true,
       "area": "Farringdon",
       "address": "94 Farringdon Road, London EC1R 3EA",
       "lat": 51.5247707,
@@ -20,7 +20,6 @@
       "website": "https://thequalitychophouse.com/",
       "booking_url": "https://www.opentable.co.uk/the-quality-chop-house-reservations-london?restref=96150",
       "price_band": "£££",
-      "groups_8plus": true,
       "group_notes": "Has a private room (see site). Check capacity and set-menu terms.",
       "why": "Victorian working-class chop house (since 1869) with a famous confit potato and big sharing cuts.",
       "nearby": [
@@ -34,9 +33,9 @@
       "score": {
         "food": 8,
         "character": 10,
-        "group": 7,
+        "group": 8,
         "meat": 9,
-        "total": 8.45
+        "total": 8.65
       },
       "nearby_distances_m": {
         "the-lamb": 649,
@@ -56,7 +55,6 @@
       "website": "https://stjohnrestaurant.com/a/restaurants/smithfield",
       "booking_url": "https://stjohnrestaurant.com/a/restaurants/smithfield",
       "price_band": "£££",
-      "groups_8plus": true,
       "group_notes": "Private events offered (see /pages/private-events). Large-format feasts for groups are worth asking about.",
       "why": "Fergus Henderson's nose-to-tail temple; roast bone marrow and parsley salad is mandatory.",
       "nearby": [
@@ -71,9 +69,21 @@
       "score": {
         "food": 9,
         "character": 9,
-        "group": 7,
+        "group": 8,
         "meat": 10,
-        "total": 8.75
+        "total": 8.95
+      },
+      "image": {
+        "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0f/26_St_John_Street%2C_Clerkenwell%2C_April_2023.jpg/960px-26_St_John_Street%2C_Clerkenwell%2C_April_2023.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "width": 960,
+        "height": 1280,
+        "credit": "No Swan So Fine",
+        "license": "CC BY-SA 4.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+        "file_page": "https://commons.wikimedia.org/wiki/File:26_St_John_Street,_Clerkenwell,_April_2023.jpg",
+        "article": "https://en.wikipedia.org/wiki/St._John_%28restaurant%29",
+        "article_title": "St. John (restaurant)",
+        "article_distance_m": 23
       },
       "nearby_distances_m": {
         "fox-and-anchor": 43,
@@ -86,7 +96,7 @@
       "id": "ibai",
       "name": "Ibai",
       "category": "chop",
-      "highlight": false,
+      "highlight": true,
       "area": "Farringdon",
       "address": "92 Bartholomew Close, London EC1A 7BN",
       "lat": 51.5181623,
@@ -94,7 +104,6 @@
       "website": "https://ibai.london/",
       "booking_url": "https://www.sevenrooms.com/landing/ibailondon",
       "price_band": "££££",
-      "groups_8plus": false,
       "group_notes": "Group policy not stated online. Check with the venue.",
       "why": "Basque grill house, ranked No. 7 in the World's 101 Best Steak Restaurants 2026 and Time Out's top London steak.",
       "nearby": [
@@ -109,9 +118,9 @@
       "score": {
         "food": 9,
         "character": 8,
-        "group": 6,
+        "group": 8,
         "meat": 10,
-        "total": 8.3
+        "total": 8.7
       },
       "nearby_distances_m": {
         "fox-and-anchor": 264,
@@ -132,7 +141,6 @@
       "website": "https://thehawksmoor.com/locations/seven-dials/",
       "booking_url": "https://thehawksmoor.com/book-a-table/?location=45565",
       "price_band": "££££",
-      "groups_8plus": true,
       "group_notes": "Private dining rooms bookable via the Hawksmoor private-dining page.",
       "why": "Flagship-feel Hawksmoor in a former brewery, with a strong bar for pre-dinner martinis.",
       "nearby": [
@@ -170,7 +178,6 @@
       "website": "https://thehawksmoor.com/locations/guildhall/",
       "booking_url": "https://thehawksmoor.com/book-a-table/?location=71086",
       "price_band": "££££",
-      "groups_8plus": true,
       "group_notes": "Dedicated Guildhall private-dining rooms.",
       "why": "City Hawksmoor with dark-wood booths, built for long business dinners.",
       "nearby": [
@@ -206,7 +213,6 @@
       "website": "https://thehawksmoor.com/locations/st-pancras/",
       "booking_url": "https://thehawksmoor.com/book-a-table/?location=450966",
       "price_band": "££££",
-      "groups_8plus": true,
       "group_notes": "Dedicated St Pancras private-dining page.",
       "why": "Newest Hawksmoor (opened late 2025) in the Gothic St Pancras hotel. The highest-ranked Hawksmoor in the 2026 World's 101 Best Steak list.",
       "nearby": [
@@ -222,6 +228,18 @@
         "group": 9,
         "meat": 10,
         "total": 8.75
+      },
+      "image": {
+        "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/30/St_Pancras_Renaissance_London_Hotel_2011-06-19.jpg/960px-St_Pancras_Renaissance_London_Hotel_2011-06-19.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "width": 960,
+        "height": 640,
+        "credit": "LepoRello",
+        "license": "CC BY-SA 3.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+        "file_page": "https://commons.wikimedia.org/wiki/File:St_Pancras_Renaissance_London_Hotel_2011-06-19.jpg",
+        "article": "https://en.wikipedia.org/wiki/St_Pancras_London_Hotel",
+        "article_title": "St Pancras London Hotel",
+        "article_distance_m": 37
       },
       "nearby_distances_m": {
         "euston-tap": 576,
@@ -240,7 +258,6 @@
       "website": "https://theblacklock.com/restaurants/blacklock-soho/",
       "booking_url": "https://theblacklock.com/soho-reservations/",
       "price_band": "££",
-      "groups_8plus": false,
       "group_notes": "Group policy not stated online. Ask about 'All In' sharing for big tables.",
       "why": "Basement chop house: piles of skinny chops on toast at sane prices.",
       "nearby": [
@@ -255,9 +272,9 @@
       "score": {
         "food": 7,
         "character": 7,
-        "group": 6,
+        "group": 8,
         "meat": 10,
-        "total": 7.25
+        "total": 7.65
       },
       "nearby_distances_m": {
         "french-house": 228,
@@ -278,7 +295,6 @@
       "website": "https://theblacklock.com/restaurants/city/",
       "booking_url": "https://theblacklock.com/city-reservations/",
       "price_band": "££",
-      "groups_8plus": false,
       "group_notes": "Group policy not stated online. Email cityreservations@theblacklock.com.",
       "why": "Bigger City Blacklock in an old bank vault, with the same chops and a Sunday roast that has a cult following.",
       "nearby": [
@@ -292,9 +308,9 @@
       "score": {
         "food": 7,
         "character": 7,
-        "group": 7,
+        "group": 8,
         "meat": 10,
-        "total": 7.45
+        "total": 7.65
       },
       "nearby_distances_m": {
         "lamb-tavern": 228,
@@ -314,7 +330,6 @@
       "website": "https://bratrestaurant.co.uk/redchurch-st",
       "booking_url": "https://www.sevenrooms.com/reservations/bratshoreditch",
       "price_band": "£££",
-      "groups_8plus": false,
       "group_notes": "Small room, online booking only. Book 6-8 weeks ahead for weekends and pre-order the whole turbot.",
       "why": "Tomos Parry's Michelin-starred wood-fire grill. No. 17 in the World's 101 Best Steak Restaurants 2026.",
       "nearby": [
@@ -327,9 +342,9 @@
       "score": {
         "food": 10,
         "character": 8,
-        "group": 5,
+        "group": 6,
         "meat": 8,
-        "total": 8.2
+        "total": 8.4
       },
       "nearby_distances_m": {
         "pride-of-spitalfields": 704,
@@ -348,7 +363,6 @@
       "website": "https://www.theguinea.co.uk/",
       "booking_url": "",
       "price_band": "£££",
-      "groups_8plus": true,
       "group_notes": "Three private rooms: Gallery (10), Wine Room (14), Boardroom (20). Book by phone or email (020 7409 1728).",
       "why": "Mayfair pub-steakhouse with award-winning steak and kidney pies and a proper bar at the front.",
       "nearby": [
@@ -363,9 +377,9 @@
       "score": {
         "food": 8,
         "character": 10,
-        "group": 9,
+        "group": 7,
         "meat": 10,
-        "total": 9.0
+        "total": 8.6
       },
       "nearby_distances_m": {
         "the-audley": 490,
@@ -386,7 +400,6 @@
       "website": "https://www.goodmanrestaurants.com/mayfair",
       "booking_url": "https://www.sevenrooms.com/explore/goodmanmayfair/reservations/create/search",
       "price_band": "££££",
-      "groups_8plus": true,
       "group_notes": "Private dining offered (goodmanrestaurants.com/private-dining).",
       "why": "New York-style steakhouse with in-house dry-ageing and a serious red wine list.",
       "nearby": [
@@ -424,7 +437,6 @@
       "website": "https://www.goodmanrestaurants.com/city",
       "booking_url": "https://www.sevenrooms.com/reservations/goodmancity",
       "price_band": "££££",
-      "groups_8plus": true,
       "group_notes": "Private dining offered (goodmanrestaurants.com/private-dining).",
       "why": "City outpost of Goodman: same dry-aged beef, built for expense-account tables.",
       "nearby": [
@@ -460,7 +472,6 @@
       "website": "https://www.thened.com/london/restaurants/lutyens-grill",
       "booking_url": "https://www.thened.com/london/restaurants/lutyens-grill",
       "price_band": "££££",
-      "groups_8plus": true,
       "group_notes": "Parties of 7+ can book online. Unlimited prime rib on Fridays and Sundays. Open to non-members.",
       "why": "Wood-panelled former bank manager's office with trolley carving. No. 35 in the World's 101 Best Steak Restaurants.",
       "nearby": [
@@ -474,9 +485,21 @@
       "score": {
         "food": 8,
         "character": 10,
-        "group": 8,
+        "group": 9,
         "meat": 10,
-        "total": 8.8
+        "total": 9.0
+      },
+      "image": {
+        "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/78/Midland_Bank%2C_City_of_London.jpg/960px-Midland_Bank%2C_City_of_London.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "width": 960,
+        "height": 720,
+        "credit": "Steve Cadman",
+        "license": "CC BY-SA 2.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/2.0",
+        "file_page": "https://commons.wikimedia.org/wiki/File:Midland_Bank,_City_of_London.jpg",
+        "article": "https://en.wikipedia.org/wiki/Midland_Bank%2C_Poultry",
+        "article_title": "Midland Bank, Poultry",
+        "article_distance_m": 11
       },
       "nearby_distances_m": {
         "jamaica-wine-house": 326,
@@ -496,7 +519,6 @@
       "website": "https://www.devonshiresoho.co.uk/",
       "booking_url": "https://onsass.designmynight.com/?background-color=%2334533b&primary-color=%23ffffff&body-text-color=%23ffffff&outer-border-color=white",
       "price_band": "£££",
-      "groups_8plus": true,
       "group_notes": "Private events: privateevents@devonshiresoho.co.uk (events brochure on site).",
       "why": "London's hottest pub-grill: perfect Guinness downstairs and a wood-fired grill room upstairs. No. 45 in the World's 101 Best Steak Restaurants.",
       "nearby": [
@@ -511,9 +533,21 @@
       "score": {
         "food": 9,
         "character": 9,
-        "group": 8,
+        "group": 7,
         "meat": 9,
-        "total": 8.8
+        "total": 8.6
+      },
+      "image": {
+        "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/30/Devonshire%2C_Soho%2C_W1.jpg/960px-Devonshire%2C_Soho%2C_W1.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "width": 960,
+        "height": 1281,
+        "credit": "Ewan-M",
+        "license": "CC BY-SA 4.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+        "file_page": "https://commons.wikimedia.org/wiki/File:Devonshire,_Soho,_W1.jpg",
+        "article": "https://en.wikipedia.org/wiki/The_Devonshire%2C_London",
+        "article_title": "The Devonshire, London",
+        "article_distance_m": 8
       },
       "nearby_distances_m": {
         "red-lion-st-james": 265,
@@ -534,7 +568,6 @@
       "website": "https://holborndiningroom.com/",
       "booking_url": "https://www.sevenrooms.com/reservations/rwldnholborndiningroom",
       "price_band": "£££",
-      "groups_8plus": true,
       "group_notes": "Rosewood London offers group bookings and event spaces. Ask about the private dining room.",
       "why": "Grand British brasserie famous for its pies and Scotch eggs. Scarfes Bar is across the courtyard.",
       "nearby": [
@@ -552,6 +585,18 @@
         "group": 8,
         "meat": 8,
         "total": 8.0
+      },
+      "image": {
+        "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/8c/The_Renaissance_Chancery_Court_Hotel%2C_High_Holborn-4846480310.jpg/960px-The_Renaissance_Chancery_Court_Hotel%2C_High_Holborn-4846480310.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "width": 960,
+        "height": 720,
+        "credit": "Robert Cutts",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0",
+        "file_page": "https://commons.wikimedia.org/wiki/File:The_Renaissance_Chancery_Court_Hotel,_High_Holborn-4846480310.jpg",
+        "article": "https://en.wikipedia.org/wiki/Rosewood_London",
+        "article_title": "Rosewood London",
+        "article_distance_m": 37
       },
       "nearby_distances_m": {
         "cittie-of-yorke": 394,
@@ -572,7 +617,6 @@
       "website": "https://www.kittyfishers.com/",
       "booking_url": "https://www.sevenrooms.com/reservations/kittyfishers",
       "price_band": "£££",
-      "groups_8plus": true,
       "group_notes": "Private hire offered (/private-hire).",
       "why": "Cosy, clubby Shepherd Market wood-grill room known for aged beef.",
       "nearby": [
@@ -587,9 +631,9 @@
       "score": {
         "food": 8,
         "character": 8,
-        "group": 7,
+        "group": 8,
         "meat": 9,
-        "total": 7.95
+        "total": 8.15
       },
       "nearby_distances_m": {
         "the-audley": 508,
@@ -610,7 +654,6 @@
       "website": "https://www.thesavoylondon.com/restaurants-and-bars/savoy-grill",
       "booking_url": "https://www.opentable.co.uk/r/savoy-grill-gordon-ramsay-london",
       "price_band": "££££",
-      "groups_8plus": true,
       "group_notes": "Private dining and events page run by Gordon Ramsay Restaurants. Ask about the beef Wellington masterclass.",
       "why": "Art-deco grill room serving beef Wellington and trolley classics, with the American Bar upstairs.",
       "nearby": [
@@ -625,9 +668,21 @@
       "score": {
         "food": 8,
         "character": 10,
-        "group": 8,
+        "group": 9,
         "meat": 9,
-        "total": 8.65
+        "total": 8.85
+      },
+      "image": {
+        "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b1/H%C3%B4tel_Savoy_The_Strand_Londres_-_edited.jpg/960px-H%C3%B4tel_Savoy_The_Strand_Londres_-_edited.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "width": 960,
+        "height": 1495,
+        "credit": "Photo by CVB, edited and cropped by Cart",
+        "license": "CC BY-SA 4.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+        "file_page": "https://commons.wikimedia.org/wiki/File:H%C3%B4tel_Savoy_The_Strand_Londres_-_edited.jpg",
+        "article": "https://en.wikipedia.org/wiki/Savoy_Hotel",
+        "article_title": "Savoy Hotel",
+        "article_distance_m": 32
       },
       "nearby_distances_m": {
         "the-harp": 383,
@@ -648,7 +703,6 @@
       "website": "https://mountainbeakstreet.com/",
       "booking_url": "https://www.sevenrooms.com/reservations/mountain",
       "price_band": "£££",
-      "groups_8plus": false,
       "group_notes": "Group policy not stated online. Email bookings@mountainbeakstreet.com.",
       "why": "Tomos Parry's Soho follow-up to Brat: open-fire Welsh/Spanish cooking and big-ticket shared cuts.",
       "nearby": [
@@ -663,9 +717,9 @@
       "score": {
         "food": 9,
         "character": 8,
-        "group": 6,
+        "group": 7,
         "meat": 8,
-        "total": 8.0
+        "total": 8.2
       },
       "nearby_distances_m": {
         "red-lion-st-james": 423,
@@ -686,7 +740,6 @@
       "website": "https://rules.co.uk/",
       "booking_url": "https://www.sevenrooms.com/reservations/rules",
       "price_band": "£££",
-      "groups_8plus": true,
       "group_notes": "Private rooms: the Graham Greene Room and the John Betjeman Room.",
       "why": "London's oldest restaurant (1798): game from its own estate, pies and puddings in a room full of antlers.",
       "nearby": [
@@ -704,6 +757,18 @@
         "group": 9,
         "meat": 9,
         "total": 8.45
+      },
+      "image": {
+        "src": "https://upload.wikimedia.org/wikipedia/commons/e/ee/Rules%2C_London%27s_oldest_restaurant._-_geograph.org.uk_-_510375.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+        "width": 960,
+        "height": 720,
+        "credit": "Steve F",
+        "license": "CC BY-SA 2.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/2.0",
+        "file_page": "https://commons.wikimedia.org/wiki/File:Rules,_London%27s_oldest_restaurant._-_geograph.org.uk_-_510375.jpg",
+        "article": "https://en.wikipedia.org/wiki/Rules_%28restaurant%29",
+        "article_title": "Rules (restaurant)",
+        "article_distance_m": 3
       },
       "nearby_distances_m": {
         "lamb-and-flag": 198,
@@ -724,7 +789,6 @@
       "website": "https://wiltons.co.uk/",
       "booking_url": "https://www.sevenrooms.com/reservations/wiltons",
       "price_band": "££££",
-      "groups_8plus": true,
       "group_notes": "Private dining offered (/private-dining). Jacket is the expected dress.",
       "why": "Since 1742. The grandest old-school fish and game house in St James's.",
       "nearby": [
@@ -754,7 +818,7 @@
       "id": "ritz-restaurant",
       "name": "The Ritz Restaurant",
       "category": "fine_dining",
-      "highlight": false,
+      "highlight": true,
       "area": "Piccadilly",
       "address": "The Ritz, 150 Piccadilly, London W1J 9BR",
       "lat": 51.5071911,
@@ -762,7 +826,6 @@
       "website": "https://www.theritzlondon.com/dine-with-us/the-ritz-restaurant/",
       "booking_url": "https://www.sevenrooms.com/explore/theritzrestaurant/reservations/create/search",
       "price_band": "££££",
-      "groups_8plus": false,
       "group_notes": "Strict dress code (jacket and tie). Ask the hotel about private dining for 8+.",
       "why": "The most opulent dining room in London, with Michelin-starred classical cooking and tableside carving.",
       "nearby": [
@@ -777,9 +840,21 @@
       "score": {
         "food": 9,
         "character": 10,
-        "group": 6,
+        "group": 7,
         "meat": 7,
-        "total": 8.35
+        "total": 8.55
+      },
+      "image": {
+        "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/23/The_Ritz_%286902790412%29.jpg/960px-The_Ritz_%286902790412%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "width": 960,
+        "height": 1458,
+        "credit": "Tony Hisgett from Birmingham, UK",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0",
+        "file_page": "https://commons.wikimedia.org/wiki/File:The_Ritz_(6902790412).jpg",
+        "article": "https://en.wikipedia.org/wiki/The_Ritz_Hotel%2C_London",
+        "article_title": "The Ritz Hotel, London",
+        "article_distance_m": 1
       },
       "nearby_distances_m": {
         "red-lion-st-james": 371,
@@ -800,7 +875,6 @@
       "website": "https://www.simpsonsinthestrand.co.uk/",
       "booking_url": "https://www.sevenrooms.com/explore/granddivan/reservations/create/search",
       "price_band": "£££",
-      "groups_8plus": true,
       "group_notes": "Grand Divan (classic) and Romano's (relaxed). Large private ballroom.",
       "why": "Reopened in March 2026 by Jeremy King. Roast-beef trolleys carved at the table in the Grand Divan.",
       "nearby": [
@@ -818,6 +892,18 @@
         "group": 9,
         "meat": 10,
         "total": 8.6
+      },
+      "image": {
+        "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/7d/Simpson%27s-in-the-Strand_2023-12-04.jpg/960px-Simpson%27s-in-the-Strand_2023-12-04.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "width": 960,
+        "height": 720,
+        "credit": "Matt Brown",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0",
+        "file_page": "https://commons.wikimedia.org/wiki/File:Simpson%27s-in-the-Strand_2023-12-04.jpg",
+        "article": "https://en.wikipedia.org/wiki/Simpson%27s-in-the-Strand",
+        "article_title": "Simpson's-in-the-Strand",
+        "article_distance_m": 20
       },
       "nearby_distances_m": {
         "lamb-and-flag": 374,
@@ -838,7 +924,6 @@
       "website": "https://scotts-mayfair.com/",
       "booking_url": "https://scotts_mayfair.capricebookings.com/",
       "price_band": "££££",
-      "groups_8plus": true,
       "group_notes": "Private dining offered (/private-dining-at-scotts/). Booking page: card required, £50pp deposit for 4+.",
       "why": "Glamorous Mayfair seafood institution with an oyster bar at its heart.",
       "nearby": [
@@ -852,9 +937,21 @@
       "score": {
         "food": 8,
         "character": 9,
-        "group": 8,
+        "group": 7,
         "meat": 5,
-        "total": 7.8
+        "total": 7.6
+      },
+      "image": {
+        "src": "https://upload.wikimedia.org/wikipedia/commons/b/b5/Scott%27s_Restaurant%2C_Mount_Street%2C_London_-_geograph.org.uk_-_948875.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+        "width": 960,
+        "height": 720,
+        "credit": "Oast House Archive",
+        "license": "CC BY-SA 2.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/2.0",
+        "file_page": "https://commons.wikimedia.org/wiki/File:Scott%27s_Restaurant,_Mount_Street,_London_-_geograph.org.uk_-_948875.jpg",
+        "article": "https://en.wikipedia.org/wiki/Scott%27s_%28restaurant%29",
+        "article_title": "Scott's (restaurant)",
+        "article_distance_m": 13
       },
       "nearby_distances_m": {
         "the-audley": 58,
@@ -874,7 +971,6 @@
       "website": "https://www.bentleys.org/",
       "booking_url": "https://www.sevenrooms.com/explore/bentleys/reservations/create/search/",
       "price_band": "£££",
-      "groups_8plus": true,
       "group_notes": "Private dining and events offered (/private-dining-events).",
       "why": "Since 1916: Richard Corrigan's oyster bar and upstairs grill.",
       "nearby": [
@@ -892,6 +988,18 @@
         "group": 8,
         "meat": 6,
         "total": 7.95
+      },
+      "image": {
+        "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5d/Bentleys_sign_2.jpg/960px-Bentleys_sign_2.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "width": 960,
+        "height": 1439,
+        "credit": "Emmaccm1",
+        "license": "CC BY-SA 4.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+        "file_page": "https://commons.wikimedia.org/wiki/File:Bentleys_sign_2.jpg",
+        "article": "https://en.wikipedia.org/wiki/Bentley%27s_Oyster_Bar_and_Grill",
+        "article_title": "Bentley's Oyster Bar and Grill",
+        "article_distance_m": 12
       },
       "nearby_distances_m": {
         "red-lion-st-james": 157,
@@ -912,7 +1020,6 @@
       "website": "https://j-sheekey.co.uk/",
       "booking_url": "https://www.opentable.co.uk/j-sheekey-the-restaurant-reservations-london?restref=111285",
       "price_band": "£££",
-      "groups_8plus": true,
       "group_notes": "Private dining offered (/private-dining-events-at-j-sheekey/).",
       "why": "Theatreland fish institution. The fish pie is the order.",
       "nearby": [
@@ -950,7 +1057,6 @@
       "website": "http://www.sweetingsrestaurant.co.uk/",
       "booking_url": "",
       "price_band": "£££",
-      "groups_8plus": false,
       "group_notes": "Lunch only, Mon-Fri 11:30-15:00. No reservations: arrive before noon. Not suitable for a booked group dinner.",
       "why": "Fish restaurant in the City since 1889. Black Velvet in tankards and counter seating.",
       "nearby": [
@@ -967,6 +1073,18 @@
         "group": 3,
         "meat": 4,
         "total": 6.5
+      },
+      "image": {
+        "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/14/Sweetings%2C_Queen_Victoria_Street.jpg/960px-Sweetings%2C_Queen_Victoria_Street.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "width": 960,
+        "height": 1280,
+        "credit": "Gareth E. Kegg",
+        "license": "CC BY-SA 4.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+        "file_page": "https://commons.wikimedia.org/wiki/File:Sweetings,_Queen_Victoria_Street.jpg",
+        "article": "https://en.wikipedia.org/wiki/Sweetings",
+        "article_title": "Sweetings",
+        "article_distance_m": 19
       },
       "nearby_distances_m": {
         "jamaica-wine-house": 504,
@@ -986,7 +1104,6 @@
       "website": "https://www.roccofortehotels.com/hotels-and-resorts/brown-s-hotel/dining/charlies-at-browns/",
       "booking_url": "https://www.roccofortehotels.com/hotels-and-resorts/brown-s-hotel/dining/charlies-at-browns/",
       "price_band": "££££",
-      "groups_8plus": false,
       "group_notes": "Book via the widget on the hotel page or reservations.browns@roccofortehotels.com. Ask about group menus.",
       "why": "Adam Byatt's trolley-service British dining room, with the Donovan Bar next door.",
       "nearby": [
@@ -1001,9 +1118,21 @@
       "score": {
         "food": 8,
         "character": 9,
-        "group": 6,
+        "group": 8,
         "meat": 8,
-        "total": 7.85
+        "total": 8.25
+      },
+      "image": {
+        "src": "https://upload.wikimedia.org/wikipedia/commons/2/2a/Brown%27s_Hotel_London.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+        "width": 960,
+        "height": 720,
+        "credit": "Londonmatt",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0",
+        "file_page": "https://commons.wikimedia.org/wiki/File:Brown%27s_Hotel_London.jpg",
+        "article": "https://en.wikipedia.org/wiki/Brown%27s_Hotel%2C_London",
+        "article_title": "Brown's Hotel, London",
+        "article_distance_m": 24
       },
       "nearby_distances_m": {
         "red-lion-st-james": 408,
@@ -1024,7 +1153,6 @@
       "website": "https://www.arlington.london/",
       "booking_url": "https://www.sevenrooms.com/reservations/arlingtonrestaurant",
       "price_band": "£££",
-      "groups_8plus": true,
       "group_notes": "Private events offered (/private-events/).",
       "why": "Jeremy King's revival of the old Le Caprice room. Polished, buzzy, with live piano at night.",
       "nearby": [
@@ -1062,7 +1190,6 @@
       "website": "https://www.corinthia.com/en-gb/london/kerridges/",
       "booking_url": "https://www.sevenrooms.com/explore/kerridgesatcorinthia/reservations/create/search/",
       "price_band": "££££",
-      "groups_8plus": true,
       "group_notes": "Corinthia meetings and events team handles groups.",
       "why": "Tom Kerridge's grand British grill room: rotisserie, pies and a big bar.",
       "nearby": [
@@ -1076,9 +1203,21 @@
       "score": {
         "food": 8,
         "character": 8,
-        "group": 8,
+        "group": 9,
         "meat": 9,
-        "total": 8.15
+        "total": 8.35
+      },
+      "image": {
+        "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c5/Corinthia_Hotel_London.jpg/960px-Corinthia_Hotel_London.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "width": 960,
+        "height": 1440,
+        "credit": "Vitor Y",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0",
+        "file_page": "https://commons.wikimedia.org/wiki/File:Corinthia_Hotel_London.jpg",
+        "article": "https://en.wikipedia.org/wiki/Corinthia_Hotel_London",
+        "article_title": "Corinthia Hotel London",
+        "article_distance_m": 28
       },
       "nearby_distances_m": {
         "the-harp": 375,
@@ -1098,7 +1237,6 @@
       "website": "https://www.boisdale.co.uk/restaurant/belgravia",
       "booking_url": "",
       "price_band": "£££",
-      "groups_8plus": true,
       "group_notes": "Private dining rooms and published group menus. Book by phone (020 7730 6922) or reservations@boisdale.co.uk.",
       "why": "Scottish steak and whisky house with a cigar terrace and live music six nights a week.",
       "nearby": [
@@ -1111,9 +1249,9 @@
       "score": {
         "food": 7,
         "character": 9,
-        "group": 9,
+        "group": 8,
         "meat": 9,
-        "total": 8.2
+        "total": 8.0
       },
       "nearby_distances_m": {
         "star-tavern": 703,
@@ -1137,7 +1275,19 @@
       "nearby": [],
       "status": "trading",
       "verified_on": "2026-10-03",
-      "evidence_url": "https://camra.org.uk/pubs/olde-mitre-london-156323"
+      "evidence_url": "https://camra.org.uk/pubs/olde-mitre-london-156323",
+      "image": {
+        "src": "https://upload.wikimedia.org/wikipedia/commons/4/47/Ye_Olde_Mitre_Tavern_-_geograph.org.uk_-_763877.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+        "width": 960,
+        "height": 1442,
+        "credit": "Row17",
+        "license": "CC BY-SA 2.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/2.0",
+        "file_page": "https://commons.wikimedia.org/wiki/File:Ye_Olde_Mitre_Tavern_-_geograph.org.uk_-_763877.jpg",
+        "article": "https://en.wikipedia.org/wiki/Ye_Olde_Mitre",
+        "article_title": "Ye Olde Mitre",
+        "article_distance_m": 2
+      }
     },
     {
       "id": "fox-and-anchor",
@@ -1156,7 +1306,19 @@
       "nearby": [],
       "status": "trading",
       "verified_on": "2026-10-03",
-      "evidence_url": "https://camra.org.uk/pubs/fox-anchor-london-156298"
+      "evidence_url": "https://camra.org.uk/pubs/fox-anchor-london-156298",
+      "image": {
+        "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/62/Fox_and_Anchor%2C_Farringdon%2C_EC1_%282486430867%29.jpg/960px-Fox_and_Anchor%2C_Farringdon%2C_EC1_%282486430867%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "width": 960,
+        "height": 1280,
+        "credit": "Ewan Munro from London, UK",
+        "license": "CC BY-SA 2.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/2.0",
+        "file_page": "https://commons.wikimedia.org/wiki/File:Fox_and_Anchor,_Farringdon,_EC1_(2486430867).jpg",
+        "article": "https://en.wikipedia.org/wiki/Fox_and_Anchor",
+        "article_title": "Fox and Anchor",
+        "article_distance_m": 7
+      }
     },
     {
       "id": "cittie-of-yorke",
@@ -1175,7 +1337,19 @@
       "nearby": [],
       "status": "trading",
       "verified_on": "2026-10-03",
-      "evidence_url": "https://camra.org.uk/pubs/cittie-of-yorke-london-125495"
+      "evidence_url": "https://camra.org.uk/pubs/cittie-of-yorke-london-125495",
+      "image": {
+        "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/60/Cittie_of_Yorke_pub%2C_London_-_2023-01-27.jpg/960px-Cittie_of_Yorke_pub%2C_London_-_2023-01-27.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "width": 960,
+        "height": 1280,
+        "credit": "The wub",
+        "license": "CC BY-SA 4.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+        "file_page": "https://commons.wikimedia.org/wiki/File:Cittie_of_Yorke_pub,_London_-_2023-01-27.jpg",
+        "article": "https://en.wikipedia.org/wiki/Cittie_of_Yorke",
+        "article_title": "Cittie of Yorke",
+        "article_distance_m": 11
+      }
     },
     {
       "id": "the-lamb",
@@ -1194,7 +1368,19 @@
       "nearby": [],
       "status": "trading",
       "verified_on": "2026-10-03",
-      "evidence_url": "https://camra.org.uk/pubs/lamb-london-125487"
+      "evidence_url": "https://camra.org.uk/pubs/lamb-london-125487",
+      "image": {
+        "src": "https://upload.wikimedia.org/wikipedia/commons/b/b9/The_Lamb_-_Bloomsbury_-_WC1.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+        "width": 960,
+        "height": 1280,
+        "credit": "Ewan Munro from London, UK",
+        "license": "CC BY-SA 2.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/2.0",
+        "file_page": "https://commons.wikimedia.org/wiki/File:The_Lamb_-_Bloomsbury_-_WC1.jpg",
+        "article": "https://en.wikipedia.org/wiki/The_Lamb%2C_Bloomsbury",
+        "article_title": "The Lamb, Bloomsbury",
+        "article_distance_m": 10
+      }
     },
     {
       "id": "ye-olde-cheshire-cheese",
@@ -1213,7 +1399,19 @@
       "nearby": [],
       "status": "trading",
       "verified_on": "2026-10-03",
-      "evidence_url": "https://camra.org.uk/pubs/olde-cheshire-cheese-london-156637"
+      "evidence_url": "https://camra.org.uk/pubs/olde-cheshire-cheese-london-156637",
+      "image": {
+        "src": "https://upload.wikimedia.org/wikipedia/commons/3/37/Yeoldcheshirecheese.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+        "width": 960,
+        "height": 1280,
+        "credit": "Banjobacon at English Wikipedia",
+        "license": "CC BY 2.5",
+        "license_url": "https://creativecommons.org/licenses/by/2.5",
+        "file_page": "https://commons.wikimedia.org/wiki/File:Yeoldcheshirecheese.jpg",
+        "article": "https://en.wikipedia.org/wiki/Ye_Olde_Cheshire_Cheese",
+        "article_title": "Ye Olde Cheshire Cheese",
+        "article_distance_m": 4
+      }
     },
     {
       "id": "black-friar",
@@ -1232,7 +1430,19 @@
       "nearby": [],
       "status": "trading",
       "verified_on": "2026-10-03",
-      "evidence_url": "https://camra.org.uk/pubs/black-friar-london-156696"
+      "evidence_url": "https://camra.org.uk/pubs/black-friar-london-156696",
+      "image": {
+        "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/38/Black-Friar-Pub-Londres-230819.jpg/960px-Black-Friar-Pub-Londres-230819.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "width": 960,
+        "height": 960,
+        "credit": "FDV",
+        "license": "CC BY-SA 4.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+        "file_page": "https://commons.wikimedia.org/wiki/File:Black-Friar-Pub-Londres-230819.jpg",
+        "article": "https://en.wikipedia.org/wiki/The_Black_Friar%2C_Blackfriars",
+        "article_title": "The Black Friar, Blackfriars",
+        "article_distance_m": 1
+      }
     },
     {
       "id": "jamaica-wine-house",
@@ -1251,7 +1461,19 @@
       "nearby": [],
       "status": "trading",
       "verified_on": "2026-10-03",
-      "evidence_url": "https://camra.org.uk/pubs/jamaica-wine-house-london-156624"
+      "evidence_url": "https://camra.org.uk/pubs/jamaica-wine-house-london-156624",
+      "image": {
+        "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a2/Jamaica_Wine_House_20130323_049.jpg/960px-Jamaica_Wine_House_20130323_049.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "width": 960,
+        "height": 1434,
+        "credit": "Elisa.rolle",
+        "license": "CC BY-SA 4.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+        "file_page": "https://commons.wikimedia.org/wiki/File:Jamaica_Wine_House_20130323_049.jpg",
+        "article": "https://en.wikipedia.org/wiki/Jamaica_Wine_House",
+        "article_title": "Jamaica Wine House",
+        "article_distance_m": 13
+      }
     },
     {
       "id": "lamb-tavern",
@@ -1270,7 +1492,19 @@
       "nearby": [],
       "status": "trading",
       "verified_on": "2026-10-03",
-      "evidence_url": "https://camra.org.uk/pubs/lamb-tavern-london-156616"
+      "evidence_url": "https://camra.org.uk/pubs/lamb-tavern-london-156616",
+      "image": {
+        "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/46/Leadenhall_Market_In_London_-_Feb_2006_rotated.jpg/960px-Leadenhall_Market_In_London_-_Feb_2006_rotated.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "width": 960,
+        "height": 650,
+        "credit": "Diliff",
+        "license": "CC BY 2.5",
+        "license_url": "https://creativecommons.org/licenses/by/2.5",
+        "file_page": "https://commons.wikimedia.org/wiki/File:Leadenhall_Market_In_London_-_Feb_2006_rotated.jpg",
+        "article": "https://en.wikipedia.org/wiki/Leadenhall_Market",
+        "article_title": "Leadenhall Market",
+        "article_distance_m": 16
+      }
     },
     {
       "id": "the-harp",
@@ -1289,7 +1523,19 @@
       "nearby": [],
       "status": "trading",
       "verified_on": "2026-10-03",
-      "evidence_url": "https://camra.org.uk/pubs/harp-london-128660"
+      "evidence_url": "https://camra.org.uk/pubs/harp-london-128660",
+      "image": {
+        "src": "https://upload.wikimedia.org/wikipedia/commons/f/fe/Harp%2C_Covent_Garden%2C_WC2_%282913857439%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+        "width": 960,
+        "height": 1641,
+        "credit": "Ewan Munro from London, UK",
+        "license": "CC BY-SA 2.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/2.0",
+        "file_page": "https://commons.wikimedia.org/wiki/File:Harp,_Covent_Garden,_WC2_(2913857439).jpg",
+        "article": "https://en.wikipedia.org/wiki/The_Harp",
+        "article_title": "The Harp",
+        "article_distance_m": 5
+      }
     },
     {
       "id": "lamb-and-flag",
@@ -1308,7 +1554,19 @@
       "nearby": [],
       "status": "trading",
       "verified_on": "2026-10-03",
-      "evidence_url": "https://camra.org.uk/pubs/lamb-flag-london-128715"
+      "evidence_url": "https://camra.org.uk/pubs/lamb-flag-london-128715",
+      "image": {
+        "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/bc/Lamb_and_Flag%2C_Covent_Garden%2C_WC2_%283578392482%29.jpg/960px-Lamb_and_Flag%2C_Covent_Garden%2C_WC2_%283578392482%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "width": 960,
+        "height": 1280,
+        "credit": "Ewan Munro from London, UK",
+        "license": "CC BY-SA 2.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/2.0",
+        "file_page": "https://commons.wikimedia.org/wiki/File:Lamb_and_Flag,_Covent_Garden,_WC2_(3578392482).jpg",
+        "article": "https://en.wikipedia.org/wiki/Lamb_and_Flag%2C_Covent_Garden",
+        "article_title": "Lamb and Flag, Covent Garden",
+        "article_distance_m": 13
+      }
     },
     {
       "id": "the-salisbury",
@@ -1327,7 +1585,19 @@
       "nearby": [],
       "status": "trading",
       "verified_on": "2026-10-03",
-      "evidence_url": "https://camra.org.uk/pubs/salisbury-london-128829"
+      "evidence_url": "https://camra.org.uk/pubs/salisbury-london-128829",
+      "image": {
+        "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/48/Salisbury%2C_Covent_Garden%2C_WC2_%282913856903%29.jpg/960px-Salisbury%2C_Covent_Garden%2C_WC2_%282913856903%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "width": 960,
+        "height": 1280,
+        "credit": "Ewan Munro from London, UK",
+        "license": "CC BY-SA 2.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/2.0",
+        "file_page": "https://commons.wikimedia.org/wiki/File:Salisbury,_Covent_Garden,_WC2_(2913856903).jpg",
+        "article": "https://en.wikipedia.org/wiki/The_Salisbury%2C_Covent_Garden",
+        "article_title": "The Salisbury, Covent Garden",
+        "article_distance_m": 12
+      }
     },
     {
       "id": "red-lion-st-james",
@@ -1346,7 +1616,19 @@
       "nearby": [],
       "status": "trading",
       "verified_on": "2026-10-03",
-      "evidence_url": "https://camra.org.uk/pubs/red-lion-london-128701"
+      "evidence_url": "https://camra.org.uk/pubs/red-lion-london-128701",
+      "image": {
+        "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/97/Red_Lion%2C_St_Jamess%2C_SW1_%283400213792%29.jpg/960px-Red_Lion%2C_St_Jamess%2C_SW1_%283400213792%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "width": 960,
+        "height": 1280,
+        "credit": "Ewan Munro from London, UK",
+        "license": "CC BY-SA 2.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/2.0",
+        "file_page": "https://commons.wikimedia.org/wiki/File:Red_Lion,_St_Jamess,_SW1_(3400213792).jpg",
+        "article": "https://en.wikipedia.org/wiki/Red_Lion%2C_Duke_of_York_Street",
+        "article_title": "Red Lion, Duke of York Street",
+        "article_distance_m": 14
+      }
     },
     {
       "id": "the-audley",
@@ -1384,7 +1666,19 @@
       "nearby": [],
       "status": "trading",
       "verified_on": "2026-10-03",
-      "evidence_url": "https://camra.org.uk/pubs/dog-duck-london-128663"
+      "evidence_url": "https://camra.org.uk/pubs/dog-duck-london-128663",
+      "image": {
+        "src": "https://upload.wikimedia.org/wikipedia/commons/e/e7/Dog_and_Duck%2C_Soho%2C_W1_%282534053077%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+        "width": 960,
+        "height": 1280,
+        "credit": "Ewan Munro from London, UK",
+        "license": "CC BY-SA 2.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/2.0",
+        "file_page": "https://commons.wikimedia.org/wiki/File:Dog_and_Duck,_Soho,_W1_(2534053077).jpg",
+        "article": "https://en.wikipedia.org/wiki/Dog_and_Duck%2C_Soho",
+        "article_title": "Dog and Duck, Soho",
+        "article_distance_m": 4
+      }
     },
     {
       "id": "french-house",
@@ -1403,7 +1697,19 @@
       "nearby": [],
       "status": "trading",
       "verified_on": "2026-10-03",
-      "evidence_url": "https://camra.org.uk/pubs/french-house-london-129160"
+      "evidence_url": "https://camra.org.uk/pubs/french-house-london-129160",
+      "image": {
+        "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f4/French_House%2C_Soho%2C_W1_%282711027655%29.jpg/960px-French_House%2C_Soho%2C_W1_%282711027655%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "width": 960,
+        "height": 1280,
+        "credit": "Ewan Munro from London, UK",
+        "license": "CC BY-SA 2.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/2.0",
+        "file_page": "https://commons.wikimedia.org/wiki/File:French_House,_Soho,_W1_(2711027655).jpg",
+        "article": "https://en.wikipedia.org/wiki/The_French_House%2C_Soho",
+        "article_title": "The French House, Soho",
+        "article_distance_m": 7
+      }
     },
     {
       "id": "euston-tap",
@@ -1441,7 +1747,19 @@
       "nearby": [],
       "status": "trading",
       "verified_on": "2026-10-03",
-      "evidence_url": "https://camra.org.uk/pubs/star-tavern-london-128650"
+      "evidence_url": "https://camra.org.uk/pubs/star-tavern-london-128650",
+      "image": {
+        "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b6/Star_Tavern%2C_Belgravia%2C_SW1_%284588158213%29.jpg/960px-Star_Tavern%2C_Belgravia%2C_SW1_%284588158213%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "width": 960,
+        "height": 1706,
+        "credit": "Ewan Munro from London, UK",
+        "license": "CC BY-SA 2.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/2.0",
+        "file_page": "https://commons.wikimedia.org/wiki/File:Star_Tavern,_Belgravia,_SW1_(4588158213).jpg",
+        "article": "https://en.wikipedia.org/wiki/Star_Tavern%2C_Belgravia",
+        "article_title": "Star Tavern, Belgravia",
+        "article_distance_m": 9
+      }
     },
     {
       "id": "pride-of-spitalfields",
@@ -1460,7 +1778,19 @@
       "nearby": [],
       "status": "trading",
       "verified_on": "2026-10-03",
-      "evidence_url": "https://camra.org.uk/pubs/pride-of-spitalfields-london-155017"
+      "evidence_url": "https://camra.org.uk/pubs/pride-of-spitalfields-london-155017",
+      "image": {
+        "src": "https://upload.wikimedia.org/wikipedia/commons/a/aa/The_Pride_of_Spitalfields.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+        "width": 960,
+        "height": 737,
+        "credit": "Clavileno",
+        "license": "CC BY-SA 3.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+        "file_page": "https://commons.wikimedia.org/wiki/File:The_Pride_of_Spitalfields.jpg",
+        "article": "https://en.wikipedia.org/wiki/The_Pride_of_Spitalfields",
+        "article_title": "The Pride of Spitalfields",
+        "article_distance_m": 3
+      }
     },
     {
       "id": "connaught-bar",
@@ -1498,7 +1828,19 @@
       "nearby": [],
       "status": "trading",
       "verified_on": "2026-10-03",
-      "evidence_url": "https://www.timeout.com/london/news/worlds-50-best-bars-2026-longlist-scarfes-three-sheets-soho-092326"
+      "evidence_url": "https://www.timeout.com/london/news/worlds-50-best-bars-2026-longlist-scarfes-three-sheets-soho-092326",
+      "image": {
+        "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/8c/The_Renaissance_Chancery_Court_Hotel%2C_High_Holborn-4846480310.jpg/960px-The_Renaissance_Chancery_Court_Hotel%2C_High_Holborn-4846480310.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "width": 960,
+        "height": 720,
+        "credit": "Robert Cutts",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0",
+        "file_page": "https://commons.wikimedia.org/wiki/File:The_Renaissance_Chancery_Court_Hotel,_High_Holborn-4846480310.jpg",
+        "article": "https://en.wikipedia.org/wiki/Rosewood_London",
+        "article_title": "Rosewood London",
+        "article_distance_m": 37
+      }
     },
     {
       "id": "tayer-elementary",
@@ -1555,7 +1897,19 @@
       "nearby": [],
       "status": "trading",
       "verified_on": "2026-10-03",
-      "evidence_url": "https://www.thesavoylondon.com/restaurants-and-bars/american-bar"
+      "evidence_url": "https://www.thesavoylondon.com/restaurants-and-bars/american-bar",
+      "image": {
+        "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b1/H%C3%B4tel_Savoy_The_Strand_Londres_-_edited.jpg/960px-H%C3%B4tel_Savoy_The_Strand_Londres_-_edited.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "width": 960,
+        "height": 1495,
+        "credit": "Photo by CVB, edited and cropped by Cart",
+        "license": "CC BY-SA 4.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+        "file_page": "https://commons.wikimedia.org/wiki/File:H%C3%B4tel_Savoy_The_Strand_Londres_-_edited.jpg",
+        "article": "https://en.wikipedia.org/wiki/Savoy_Hotel",
+        "article_title": "Savoy Hotel",
+        "article_distance_m": 32
+      }
     },
     {
       "id": "dukes-bar",
@@ -1574,7 +1928,19 @@
       "nearby": [],
       "status": "trading",
       "verified_on": "2026-10-03",
-      "evidence_url": "https://www.dukeshotel.com/dukesbar.html"
+      "evidence_url": "https://www.dukeshotel.com/dukesbar.html",
+      "image": {
+        "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/7b/Hotel_Dukes_London.jpg/960px-Hotel_Dukes_London.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "width": 960,
+        "height": 938,
+        "credit": "Ricardalovesmonuments",
+        "license": "CC BY-SA 4.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+        "file_page": "https://commons.wikimedia.org/wiki/File:Hotel_Dukes_London.jpg",
+        "article": "https://en.wikipedia.org/wiki/Dukes_Hotel",
+        "article_title": "Dukes Hotel",
+        "article_distance_m": 6
+      }
     },
     {
       "id": "donovan-bar",
@@ -1593,7 +1959,19 @@
       "nearby": [],
       "status": "trading",
       "verified_on": "2026-10-03",
-      "evidence_url": "https://www.roccofortehotels.com/hotels-and-resorts/brown-s-hotel/dining/donovan-bar/"
+      "evidence_url": "https://www.roccofortehotels.com/hotels-and-resorts/brown-s-hotel/dining/donovan-bar/",
+      "image": {
+        "src": "https://upload.wikimedia.org/wikipedia/commons/2/2a/Brown%27s_Hotel_London.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+        "width": 960,
+        "height": 720,
+        "credit": "Londonmatt",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0",
+        "file_page": "https://commons.wikimedia.org/wiki/File:Brown%27s_Hotel_London.jpg",
+        "article": "https://en.wikipedia.org/wiki/Brown%27s_Hotel%2C_London",
+        "article_title": "Brown's Hotel, London",
+        "article_distance_m": 24
+      }
     },
     {
       "id": "rivoli-bar",
@@ -1612,7 +1990,19 @@
       "nearby": [],
       "status": "trading",
       "verified_on": "2026-10-03",
-      "evidence_url": "https://www.theritzlondon.com/dine-with-us/rivoli-bar/"
+      "evidence_url": "https://www.theritzlondon.com/dine-with-us/rivoli-bar/",
+      "image": {
+        "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/23/The_Ritz_%286902790412%29.jpg/960px-The_Ritz_%286902790412%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "width": 960,
+        "height": 1458,
+        "credit": "Tony Hisgett from Birmingham, UK",
+        "license": "CC BY 2.0",
+        "license_url": "https://creativecommons.org/licenses/by/2.0",
+        "file_page": "https://commons.wikimedia.org/wiki/File:The_Ritz_(6902790412).jpg",
+        "article": "https://en.wikipedia.org/wiki/The_Ritz_Hotel%2C_London",
+        "article_title": "The Ritz Hotel, London",
+        "article_distance_m": 1
+      }
     },
     {
       "id": "bar-termini-soho",
@@ -1650,7 +2040,19 @@
       "nearby": [],
       "status": "trading",
       "verified_on": "2026-10-03",
-      "evidence_url": "https://thezetter.com/clerkenwell/the-parlour/"
+      "evidence_url": "https://thezetter.com/clerkenwell/the-parlour/",
+      "image": {
+        "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/eb/Zetter_Hotel_2.jpg/960px-Zetter_Hotel_2.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "width": 960,
+        "height": 809,
+        "credit": "Mx. Granger",
+        "license": "CC0",
+        "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+        "file_page": "https://commons.wikimedia.org/wiki/File:Zetter_Hotel_2.jpg",
+        "article": "https://en.wikipedia.org/wiki/Zetter_Hotel",
+        "article_title": "Zetter Hotel",
+        "article_distance_m": 47
+      }
     },
     {
       "id": "booking-office-1869",
@@ -1669,7 +2071,19 @@
       "nearby": [],
       "status": "trading",
       "verified_on": "2026-10-03",
-      "evidence_url": "https://www.booking-office.co.uk/"
+      "evidence_url": "https://www.booking-office.co.uk/",
+      "image": {
+        "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/30/St_Pancras_Renaissance_London_Hotel_2011-06-19.jpg/960px-St_Pancras_Renaissance_London_Hotel_2011-06-19.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "width": 960,
+        "height": 640,
+        "credit": "LepoRello",
+        "license": "CC BY-SA 3.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+        "file_page": "https://commons.wikimedia.org/wiki/File:St_Pancras_Renaissance_London_Hotel_2011-06-19.jpg",
+        "article": "https://en.wikipedia.org/wiki/St_Pancras_London_Hotel",
+        "article_title": "St Pancras London Hotel",
+        "article_distance_m": 32
+      }
     },
     {
       "id": "goring-bar",
@@ -1688,7 +2102,19 @@
       "nearby": [],
       "status": "trading",
       "verified_on": "2026-10-03",
-      "evidence_url": "https://www.thegoring.com/food-drink/the-goring-cocktail-bar/"
+      "evidence_url": "https://www.thegoring.com/food-drink/the-goring-cocktail-bar/",
+      "image": {
+        "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5e/Goring_Hotel_Londres.jpg/960px-Goring_Hotel_Londres.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "width": 960,
+        "height": 720,
+        "credit": "CVB",
+        "license": "CC BY-SA 4.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+        "file_page": "https://commons.wikimedia.org/wiki/File:Goring_Hotel_Londres.jpg",
+        "article": "https://en.wikipedia.org/wiki/Goring_Hotel",
+        "article_title": "Goring Hotel",
+        "article_distance_m": 14
+      }
     },
     {
       "id": "nickel-bar",
@@ -1707,7 +2133,19 @@
       "nearby": [],
       "status": "trading",
       "verified_on": "2026-10-03",
-      "evidence_url": "https://www.thened.com/london/restaurants/the-nickel-bar"
+      "evidence_url": "https://www.thened.com/london/restaurants/the-nickel-bar",
+      "image": {
+        "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/78/Midland_Bank%2C_City_of_London.jpg/960px-Midland_Bank%2C_City_of_London.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "width": 960,
+        "height": 720,
+        "credit": "Steve Cadman",
+        "license": "CC BY-SA 2.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/2.0",
+        "file_page": "https://commons.wikimedia.org/wiki/File:Midland_Bank,_City_of_London.jpg",
+        "article": "https://en.wikipedia.org/wiki/Midland_Bank%2C_Poultry",
+        "article_title": "Midland Bank, Poultry",
+        "article_distance_m": 11
+      }
     },
     {
       "id": "seed-library",

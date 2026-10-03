@@ -38,16 +38,17 @@ L = [f"# Verification\n",
      "| Guessed URLs | Several guessed Nicholson's and pub domains turned out wrong or parked (e.g. yeoldecheshirecheese.co.uk) | Website left empty and CAMRA page used as evidence |",
      "",
      "## Restaurant scoring (30)\n",
-     "Weights: food 40%, character 25%, group suitability 20%, meat 15%. Sub-scores out of 10 are **editorial judgement** "
-     "informed by guide listings (Michelin, World's 101 Best Steaks 2026, Time Out), heritage, and what each venue's own site says about groups. "
+     "Weights: food 40%, character 25%, group suitability 20%, meat 15%. Group suitability is judged for **a party of five**: "
+     "how easily you get a good table (online booking, lead time, deposits, no-reservations policies). Sub-scores out of 10 are **editorial judgement** "
+     "informed by guide listings (Michelin, World's 101 Best Steaks 2026, Time Out), heritage, and what each venue's own site says about booking. "
      "They are not taken from any single published rating. A total of 8.5 or more sets `highlight`.\n",
-     "| # | Restaurant | Type | Area | Food | Char. | Group | Meat | **Total** | 8+ group | Book |",
-     "|---|---|---|---|---|---|---|---|---|---|---|"]
+     "| # | Restaurant | Type | Area | Food | Char. | Group | Meat | **Total** | Book |",
+     "|---|---|---|---|---|---|---|---|---|---|"]
 R = sorted((v for v in V if v["category"] in ("chop", "fine_dining")), key=lambda v: -v["score"]["total"])
 for n, v in enumerate(R, 1):
     s = v["score"]
     L.append(f"| {n} | {link(v['name'], v['website'])} | {CAT[v['category']]} | {v['area']} | {s['food']} | {s['character']} | "
-             f"{s['group']} | {s['meat']} | **{s['total']}** | {'yes' if v['groups_8plus'] else 'check'} | "
+             f"{s['group']} | {s['meat']} | **{s['total']}** | "
              f"{link('book', v['booking_url']) if v['booking_url'] else '⚠️ phone/email'} |")
 L += ["", f"Split: {sum(v['category']=='chop' for v in R)} chop/steak, {sum(v['category']=='fine_dining' for v in R)} fine dining.\n",
       "## Trading status: every venue\n",
@@ -61,6 +62,16 @@ for v in V:
     miss = [f for f in ("website", "booking_url") if not v[f] and not (v["category"] in ("pub", "cocktail_bar") and f == "booking_url")]
     if miss:
         L.append(f"- **{v['name']}**: no {' or '.join(miss)} confirmed. {v.get('group_notes') or 'See the CAMRA evidence link.'}")
+L += ["", "## Photo credits\n",
+      "Photos are freely licensed images from Wikimedia Commons, hotlinked from upload.wikimedia.org. Each one is the lead image of a "
+      "Wikipedia article whose coordinates are within 250 m of the venue (`scripts/fetch_images.py`). Where a venue sits inside a larger "
+      "building (hotel bars, Leadenhall Market), the photo shows that building, and the dialog says what is pictured.\n",
+      "| Venue | Pictured | Credit | Licence |", "|---|---|---|---|"]
+for v in sorted((v for v in V if v.get("image")), key=lambda v: v["name"]):
+    im = v["image"]
+    lic = f"[{im['license']}]({im['license_url']})" if im.get("license_url") else im["license"]
+    L.append(f"| {v['name']} | [{im['article_title']}]({im['file_page']}) | {im['credit']} | {lic} |")
+L.append(f"\n{sum(1 for v in V if not v.get('image'))} venues have no photo, because no freely licensed image of the venue itself could be confirmed.")
 L += ["", "## Caveats\n",
       "- Michelin star counts are not quoted. Sources disagreed (e.g. Brat), so venues are just described as 'Michelin-starred'.",
       "- `group_notes` come from each venue's own site on the check date. Treat them as prompts to call, not as fact.",

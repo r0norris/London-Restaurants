@@ -1,0 +1,644 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>London Lads' Dinner Map</title>
+<meta name="description" content="30 London chop houses and traditional dining rooms, each with honest taverns and fine cocktail bars within ten minutes' walk.">
+<meta name="color-scheme" content="light dark">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,600;1,400&family=IM+Fell+English+SC&family=IM+Fell+English:ital@0;1&display=swap">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.css"
+      integrity="sha512-Zcn6bjR/8RZbLEpLIeOwNtzREBAJnUKESxces60Mpoj+2okopSAcSUIUOseddDm0cxnGQzxIR7vJgsLZbdLE3w==" crossorigin="anonymous" referrerpolicy="no-referrer">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/MarkerCluster.css"
+      integrity="sha512-mQ77VzAakzdpWdgfL/lM1ksNy89uFgibRQANsNneSTMD/bj0Y/8+94XMwYhnbzx8eki2hrbPpDm0vD0CiT2lcg==" crossorigin="anonymous" referrerpolicy="no-referrer">
+<style>
+/* Palette: ink and oxblood on parchment by day; gaslight on soot by night. */
+:root {
+  --bg: #efe5cf; --surface: #faf4e6; --surface-2: #ece0c4; --text: #231b12; --muted: #6c5f4b; --line: #c9b994;
+  --accent: #7a1f1f; --brass: #9c7128; --focus: #1f4fa0;
+  --chop: #b0221a; --fine: #1c3a78; --pub: #d07c00; --bar: #7a2fa8; --gold: #f2c230; --uncertain: #8a8478;
+  --ok-bg: #dfe8d2; --ok-text: #2f4d1f; --warn-bg: #f6e2b8; --warn-text: #74470a;
+  --wash: #e6d2a4; --wash-opacity: .5; --vignette: rgba(70,45,15,.28);
+  --radius: 4px; --shadow: 0 10px 30px rgba(40,25,5,.28);
+  --display: "IM Fell English SC", "IM Fell English", Georgia, serif;
+  --display-lc: "IM Fell English", Georgia, serif;
+  --body: "EB Garamond", Garamond, Georgia, "Times New Roman", serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #15110b; --surface: #1f1910; --surface-2: #2b2316; --text: #ecdfc2; --muted: #a8977a; --line: #4a3d28;
+    --accent: #e19a7f; --brass: #d8a64e; --focus: #8fb6ff;
+    --chop: #ef5a4c; --fine: #7aa0ec; --pub: #ffad33; --bar: #c48af0; --uncertain: #7d776b;
+    --ok-bg: #26331c; --ok-text: #b9d99c; --warn-bg: #3d2c10; --warn-text: #f2c36d;
+    --wash: #5a3d10; --wash-opacity: .38; --vignette: rgba(0,0,0,.6);
+    --shadow: 0 10px 30px rgba(0,0,0,.6);
+  }
+}
+* { box-sizing: border-box; }
+html, body { height: 100%; margin: 0; }
+body { background: var(--bg); color: var(--text); font: 17px/1.45 var(--body); display: flex; flex-direction: column; }
+a { color: var(--accent); }
+:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+button { font: inherit; color: inherit; }
+
+/* ---------- header: a playbill ---------- */
+header { background: var(--surface); border-bottom: 4px double var(--text); padding: 8px 16px 4px; z-index: 1000;
+         padding-top: max(8px, env(safe-area-inset-top)); }
+.titlebar { display: flex; align-items: center; gap: 12px; }
+h1 { font: 400 23px/1.1 var(--display); margin: 0; flex: 1; letter-spacing: .02em; }
+h1 small { display: block; font: italic 14px/1.3 var(--display-lc); color: var(--muted); letter-spacing: 0; margin-top: 2px; }
+.views { display: inline-flex; border: 1px solid var(--text); border-radius: 2px; overflow: hidden; flex: none; }
+.views button { border: 0; background: transparent; padding: 6px 12px; min-height: 40px; cursor: pointer; font: 16px var(--display); letter-spacing: .03em; }
+.views button + button { border-left: 1px solid var(--text); }
+.views button[aria-pressed="true"] { background: var(--text); color: var(--surface); }
+.filters { display: flex; gap: 8px; overflow-x: auto; padding: 8px 0 4px; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+.filters::-webkit-scrollbar { display: none; }
+.filters[hidden], .count[hidden] { display: none; }
+.chip { flex: none; display: inline-flex; align-items: center; gap: 6px; border: 1px solid var(--line); background: var(--surface);
+        border-radius: 2px; padding: 4px 12px; min-height: 40px; cursor: pointer; white-space: nowrap; font-size: 16px; }
+.chip[aria-pressed="true"] { background: var(--surface-2); border-color: var(--text); font-weight: 600; box-shadow: inset 0 0 0 1px var(--text); }
+.chip[aria-pressed="false"] .dot { opacity: .35; }
+.dot { width: 12px; height: 12px; border-radius: 50%; display: inline-block; flex: none; box-shadow: 0 0 0 1.5px var(--surface), 0 0 0 2.5px rgba(0,0,0,.35); }
+.sep { flex: none; color: var(--brass); align-self: center; font-size: 15px; }
+.count { color: var(--muted); font: italic 14px var(--body); padding: 0 0 4px; }
+
+/* ---------- map: greyscale engraving under a parchment wash ---------- */
+main { flex: 1; position: relative; min-height: 0; }
+#map { position: absolute; inset: 0; background: var(--surface-2); }
+#map .leaflet-tile-pane { filter: grayscale(1) contrast(1.12) brightness(1.04); }
+@media (prefers-color-scheme: dark) { #map .leaflet-tile-pane { filter: grayscale(1) invert(1) contrast(.95) brightness(.8); } }
+/* Parchment wash + vignette between the tiles (z 200) and the landmark/marker panes (z 450+) */
+#map::after { content: ""; position: absolute; inset: 0; z-index: 300; pointer-events: none; mix-blend-mode: multiply;
+  background: radial-gradient(ellipse at center, transparent 55%, var(--vignette) 100%),
+              color-mix(in srgb, var(--wash) calc(var(--wash-opacity) * 100%), transparent); }
+@media (prefers-color-scheme: dark) { #map::after { mix-blend-mode: normal; } }
+#list, #charter { position: absolute; inset: 0; overflow: auto; padding: 16px 16px 40px; background: var(--bg); }
+#list[hidden], #map[hidden], #charter[hidden] { display: none; }
+
+/* landmarks: engraved labels */
+.landmark { background: none; border: 0; pointer-events: none; }
+.landmark span { display: inline-block; transform: translate(-50%, -50%); white-space: nowrap; font: italic 15px/1 var(--display-lc);
+  color: #2a2016; letter-spacing: .02em; text-shadow: 0 0 3px #f6eedb, 0 0 3px #f6eedb, 0 0 6px #f6eedb; }
+.landmark span::before { content: "✠ "; font-style: normal; font-size: 11px; color: var(--accent); vertical-align: 1px; }
+@media (prefers-color-scheme: dark) { .landmark span { color: #f1e4c4; text-shadow: 0 0 3px #000, 0 0 3px #000, 0 0 6px #000; } }
+.hide-landmarks .landmark { display: none; }
+
+/* ---------- list ---------- */
+.sheet { max-width: 980px; margin: 0 auto; }
+table { width: 100%; border-collapse: collapse; background: var(--surface); border: 1px solid var(--text); box-shadow: inset 0 0 0 3px var(--surface), inset 0 0 0 4px var(--line); }
+th, td { text-align: left; padding: 10px 8px; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { position: sticky; top: 0; background: var(--surface-2); z-index: 1; white-space: nowrap; border-bottom: 3px double var(--text); }
+th button { border: 0; background: none; padding: 4px 0; cursor: pointer; font: 16px var(--display); min-height: 32px; }
+th[aria-sort="ascending"] button::after { content: " ▲"; font-size: 10px; }
+th[aria-sort="descending"] button::after { content: " ▼"; font-size: 10px; }
+tbody tr { cursor: pointer; }
+tbody tr:hover { background: var(--surface-2); }
+td.num, th.num { text-align: right; font-variant-numeric: tabular-nums lining-nums; }
+td.price { white-space: nowrap; }
+.namecell { font-weight: 600; }
+.namecell .sub { display: block; font-weight: 400; font-style: italic; color: var(--muted); font-size: 14px; }
+caption { caption-side: bottom; text-align: left; padding: 10px 4px; }
+@media (max-width: 640px) {
+  .hide-sm { display: none; } h1 small { display: none; }
+  h1 { font-size: 18px; } .titlebar { gap: 8px; }
+  .views button { padding: 6px 9px; font-size: 15px; }
+}
+
+/* ---------- charter ---------- */
+.charter { max-width: 720px; margin: 0 auto; background: var(--surface); border: 1px solid var(--text); padding: 28px 28px 36px;
+           box-shadow: inset 0 0 0 5px var(--surface), inset 0 0 0 6px var(--line), var(--shadow); }
+.charter h2 { font: 400 34px/1.1 var(--display); text-align: center; margin: 0; letter-spacing: .03em; }
+.charter .sub { text-align: center; font: italic 18px/1.3 var(--display-lc); color: var(--muted); margin: 6px 0 4px; }
+.fleuron { text-align: center; color: var(--brass); font-size: 22px; margin: 10px 0; letter-spacing: .4em; }
+.charter h3 { font: 400 21px/1.2 var(--display); margin: 26px 0 6px; letter-spacing: .02em; color: var(--text); text-transform: none; }
+.charter h3 b { color: var(--accent); font-weight: 400; margin-right: 6px; }
+.charter p, .charter li { margin: 0 0 10px; }
+.charter ul { padding-left: 20px; }
+.charter .preamble::first-letter { float: left; font: 64px/0.8 var(--display); color: var(--accent); padding: 6px 8px 0 0; }
+.weights { display: grid; grid-template-columns: auto 1fr; gap: 6px 14px; margin: 10px 0 14px; align-items: baseline; }
+.weights .w { font: 22px var(--display); color: var(--accent); text-align: right; font-variant-numeric: lining-nums; }
+.charter .signoff { text-align: center; font: italic 17px var(--display-lc); color: var(--muted); margin-top: 26px; }
+@media (max-width: 600px) { .charter { padding: 20px 16px 28px; } .charter h2 { font-size: 27px; } }
+
+/* ---------- markers ---------- */
+.pin { background: none; border: 0; }
+.pin svg { display: block; filter: drop-shadow(0 2px 2px rgba(0,0,0,.55)); }
+.marker-cluster-small, .marker-cluster-medium, .marker-cluster-large { background-color: rgba(156,113,40,.45); }
+.marker-cluster-small div, .marker-cluster-medium div, .marker-cluster-large div {
+  background-color: var(--accent); color: #fbf3e2; font: 600 15px/30px var(--body); border: 1.5px solid #fbf3e2; }
+.marker-cluster { background-clip: padding-box; border-radius: 20px; }
+.marker-cluster div { width: 30px; height: 30px; margin-left: 5px; margin-top: 5px; text-align: center; border-radius: 15px; }
+.marker-cluster span { line-height: 27px; }
+@media (prefers-color-scheme: dark) { .marker-cluster-small div, .marker-cluster-medium div, .marker-cluster-large div { color: #1f1910; border-color: #1f1910; } }
+.leaflet-container { font: inherit; }
+.leaflet-control-attribution { font: 12px var(--body); }
+.leaflet-bar a { font-family: var(--body); }
+
+/* ---------- dialog: a calling card ---------- */
+dialog { border: 1px solid var(--text); padding: 0; border-radius: var(--radius); background: var(--surface); color: var(--text); box-shadow: var(--shadow);
+         width: min(540px, calc(100vw - 32px)); max-height: calc(100dvh - 48px); }
+dialog::backdrop { background: rgba(25,15,5,.55); }
+.dlg { display: flex; flex-direction: column; max-height: inherit; box-shadow: inset 0 0 0 4px var(--surface), inset 0 0 0 5px var(--line); }
+.dlg-head { padding: 18px 18px 12px; border-bottom: 3px double var(--line); display: flex; gap: 12px; align-items: flex-start; }
+.dlg-head h2 { margin: 0; font: 400 27px/1.1 var(--display-lc); }
+.dlg-head .meta { color: var(--muted); font-size: 16px; margin-top: 4px; display: flex; flex-wrap: wrap; gap: 4px 12px; align-items: center; }
+.close { margin-left: auto; flex: none; border: 1px solid var(--text); background: var(--surface-2); border-radius: 50%; width: 44px; height: 44px;
+         font-size: 24px; line-height: 1; cursor: pointer; }
+.dlg-body { padding: 14px 18px 20px; overflow: auto; }
+.cat { display: inline-flex; align-items: center; gap: 6px; font-weight: 600; color: var(--text); }
+.badge { display: inline-block; border-radius: 2px; padding: 1px 10px; font-size: 15px; font-weight: 600; }
+.badge.ok { background: var(--ok-bg); color: var(--ok-text); }
+.badge.warn { background: var(--warn-bg); color: var(--warn-text); }
+.why { font-size: 19px; line-height: 1.4; margin: 0 0 12px; }
+.notes { background: var(--surface-2); border-left: 3px solid var(--brass); padding: 10px 12px; margin: 0 0 14px; font-size: 16px; }
+.notes strong { display: block; font: 15px var(--display); letter-spacing: .04em; color: var(--muted); margin-bottom: 2px; }
+.actions { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 0 0 8px; }
+.btn { display: flex; align-items: center; justify-content: center; text-align: center; min-height: 48px; padding: 8px 10px; border-radius: 2px;
+       background: var(--text); color: var(--surface); text-decoration: none; font: 17px var(--display); letter-spacing: .03em; border: 1px solid var(--text); }
+.btn.secondary { background: var(--surface); color: var(--text); }
+.btn.missing { background: transparent; color: var(--warn-text); border: 1px dashed var(--warn-text); font: 15px var(--body); cursor: default; }
+.small { font-size: 15px; color: var(--muted); }
+.small a { color: inherit; }
+.dlg h3 { font: 16px var(--display); letter-spacing: .06em; color: var(--muted); margin: 18px 0 6px; }
+.near { list-style: none; margin: 0; padding: 0; }
+.near button { width: 100%; display: flex; align-items: center; gap: 10px; text-align: left; border: 0; border-bottom: 1px dotted var(--line);
+               background: none; padding: 10px 2px; min-height: 48px; cursor: pointer; }
+.near button:hover { background: var(--surface-2); }
+.near .nm { font-weight: 600; flex: 1; }
+.near .nm .small { font-weight: 400; font-style: italic; }
+.near .d { color: var(--muted); font-size: 15px; font-variant-numeric: tabular-nums lining-nums; }
+.star { color: var(--gold); text-shadow: 0 0 1px #000; }
+@media (max-width: 600px) {
+  dialog { width: 100vw; max-width: 100vw; height: 100dvh; max-height: 100dvh; margin: 0; border-radius: 0; border: 0; }
+  .dlg { height: 100%; }
+  .dlg-head { padding-top: max(18px, env(safe-area-inset-top)); }
+  .dlg-body { flex: 1; padding-bottom: max(20px, env(safe-area-inset-bottom)); }
+}
+.noscript { padding: 24px; }
+</style>
+</head>
+<body>
+<header>
+  <div class="titlebar">
+    <h1>The London Lads' Dinner Map <small>Chop-houses, grand dining-rooms &amp; honest taverns, each within ten minutes' walk of a good pint</small></h1>
+    <div class="views" role="group" aria-label="View">
+      <button type="button" id="view-map" aria-pressed="true">Map</button>
+      <button type="button" id="view-list" aria-pressed="false">List</button>
+      <button type="button" id="view-charter" aria-pressed="false">Charter</button>
+    </div>
+  </div>
+  <div class="filters" id="filters" role="toolbar" aria-label="Filters">
+    <button type="button" class="chip" data-cat="chop" aria-pressed="true"><span class="dot" style="background:var(--chop)"></span>Chop &amp; steak</button>
+    <button type="button" class="chip" data-cat="fine_dining" aria-pressed="true"><span class="dot" style="background:var(--fine)"></span>Fine dining</button>
+    <button type="button" class="chip" data-cat="pub" aria-pressed="true"><span class="dot" style="background:var(--pub)"></span>Taverns</button>
+    <button type="button" class="chip" data-cat="cocktail_bar" aria-pressed="true"><span class="dot" style="background:var(--bar)"></span>Cocktail bars</button>
+    <span class="sep" aria-hidden="true">❦</span>
+    <button type="button" class="chip" id="f-highlight" aria-pressed="false"><span class="star" aria-hidden="true">★</span>Highlights only</button>
+    <button type="button" class="chip" id="f-groups" aria-pressed="false">Groups of 8+</button>
+    <span class="sep" aria-hidden="true">❦</span>
+    <button type="button" class="chip" data-price="££" aria-pressed="false">££</button>
+    <button type="button" class="chip" data-price="£££" aria-pressed="false">£££</button>
+    <button type="button" class="chip" data-price="££££" aria-pressed="false">££££</button>
+  </div>
+  <div class="count" id="count" aria-live="polite"></div>
+</header>
+
+<main>
+  <div id="map" role="region" aria-label="Map of venues"></div>
+
+  <div id="list" hidden>
+    <div class="sheet">
+    <table>
+      <caption class="small">Score = food 40% · character 25% · group suitability 20% · meat 15%. The reasons are in the Charter. Tap a row to open it on the map.</caption>
+      <thead><tr>
+        <th class="num" data-sort="score"><button type="button">Score</button></th>
+        <th data-sort="name"><button type="button">Restaurant</button></th>
+        <th data-sort="category" class="hide-sm"><button type="button">Kind</button></th>
+        <th data-sort="price"><button type="button">Price</button></th>
+        <th data-sort="groups"><button type="button">8+</button></th>
+        <th class="num hide-sm" data-sort="pub"><button type="button">Tavern (m)</button></th>
+        <th class="num hide-sm" data-sort="bar"><button type="button">Bar (m)</button></th>
+      </tr></thead>
+      <tbody id="rows"></tbody>
+    </table>
+    </div>
+  </div>
+
+  <div id="charter" hidden>
+    <article class="charter" aria-labelledby="charter-title">
+      <h2 id="charter-title">The Charter</h2>
+      <p class="sub">Being the Articles by which the Table was chosen</p>
+      <div class="fleuron" aria-hidden="true">❦ ❦ ❦</div>
+
+      <p class="preamble">This map is for a particular evening: a party of middle-aged gentlemen, a serious piece of meat in a room with some history to it, a table that will take eight, and then a proper pint and a well-made cocktail, neither more than ten minutes' walk away. Every rule below serves that evening.</p>
+
+      <h3><b>I.</b> Of the Thirty</h3>
+      <p>Thirty restaurants: <span data-fill="chop">18</span> chop houses, steak houses and grills, and <span data-fill="fine">12</span> traditional dining rooms. Meat is the point, hence the majority. But some of London's best nights out happen in rooms where the room is the point: Rules, Wiltons, the Ritz, the Grand Divan at Simpson's. <em>Traditional</em> means carving trolleys, cuts and classics, not twelve-course tasting menus. Thirty is enough for a choice in every part of town without padding the list.</p>
+
+      <h3><b>II.</b> Of the Reckoning</h3>
+      <p>Each restaurant is scored out of ten on four counts, then weighted:</p>
+      <div class="weights">
+        <span class="w">40%</span><span><strong>Food.</strong> It is a dinner, so the cooking outweighs everything else, but cooking alone does not win. Informed by the Michelin Guide, the World's 101 Best Steak Restaurants 2026, Time Out and the Good Food Guide.</span>
+        <span class="w">25%</span><span><strong>Character.</strong> Heritage, the room, a sense of occasion. If a group crosses London for dinner, it should feel like somewhere.</span>
+        <span class="w">20%</span><span><strong>Group suitability.</strong> Tables of eight or more, private rooms, group bookings. A brilliant room that cannot seat eight is little use to this party. That is why Brat ranks below its cooking, and Sweetings, beloved since 1889, sits last: lunch only and no bookings.</span>
+        <span class="w">15%</span><span><strong>Meat.</strong> The tie-breaker for the brief. The great fish houses (Scott's, Sheekey, Bentley's) keep their places for the pescatarian minority, but pay for it here.</span>
+      </div>
+      <p>The sub-scores are editorial judgement, written down so they can be argued over. A total of <strong>8.5 or more</strong> earns a gold star <span class="star" aria-hidden="true">★</span>.</p>
+
+      <h3><b>III.</b> Of the Public House</h3>
+      <p>A tavern makes the list only if it is <em>really solid</em>, meaning at least one of:</p>
+      <ul>
+        <li>listed in CAMRA's current <strong>Good Beer Guide</strong>, where volunteers judge cask quality pint by pint;</li>
+        <li>on CAMRA's <strong>National Inventory of Historic Pub Interiors</strong>, because a Victorian interior cannot be faked;</li>
+        <li>consistently strong recent reviews for cask beer and atmosphere.</li>
+      </ul>
+      <p>Most chosen taverns qualify on the first two. The gold star marks the standouts: three-star heritage interiors, Pub of the Year winners and fixtures of the Good Beer Guide. One honest exception: The Audley is the only tavern within reach of Scott's, and its heritage listing is regional, not national.</p>
+
+      <h3><b>IV.</b> Of the Cocktail Bar</h3>
+      <p>Priority goes to the current <strong>World's 50 Best Bars</strong> and its 51–100 list (the Connaught, Tayēr + Elementary, Scarfes, Three Sheets). Then come the classic hotel bars, Dukes, the American Bar at the Savoy and the Rivoli, because a martini mixed at the table is the proper end to a chop-house night.</p>
+
+      <h3><b>V.</b> Of the Ten-Minute Walk</h3>
+      <p>Every restaurant has at least one tavern and one cocktail bar within about <span data-fill="radius">850</span> m in a straight line, roughly ten minutes on foot. A party that needs taxis between stops tends to become two parties. Neighbouring restaurants share their taverns.</p>
+
+      <h3><b>VI.</b> Of Truthfulness</h3>
+      <ul>
+        <li>No address, link or coordinate is invented. Anything that could not be confirmed is left blank and flagged with a dashed ⚠️ button.</li>
+        <li>Every venue was checked against its own website and one independent source (Hot Dinners' closures tracker, CAMRA WhatPub, Time Out, the Michelin Guide) and carries its evidence link.</li>
+        <li>Closed venues are struck off. A venue in doubt is shown greyed out with a warning.</li>
+        <li>Every link is machine-checked. The last run found none broken.</li>
+      </ul>
+
+      <h3><b>VII.</b> Of Those Struck Off</h3>
+      <ul>
+        <li><strong>FKABAM</strong> (formerly Black Axe Mangal): closed December 2025.</li>
+        <li><strong>Le Gavroche</strong>: closed January 2024.</li>
+        <li><strong>The Game Bird</strong>: replaced by Michael Caines at The Stafford, September 2025.</li>
+        <li><strong>Mangal 2</strong>: a fine grill, but not a chop house.</li>
+        <li><strong>Goodman Canary Wharf</strong>: closed June 2025.</li>
+        <li><strong>Kwānt</strong>: highly ranked, but its own site shows only "Coming Soon", so it waits.</li>
+      </ul>
+
+      <h3><b>VIII.</b> Of Prudence</h3>
+      <p>Restaurants close and group policies change: minimum spends, set menus, deposits. Treat the group notes as a reason to telephone, not a promise, and re-check before booking.</p>
+
+      <div class="fleuron" aria-hidden="true">❦</div>
+      <p class="signoff">Verified and set down this <span data-fill="date">3rd day of October, 2026</span>.</p>
+    </article>
+  </div>
+
+  <noscript><p class="noscript">This map needs JavaScript. The full list is in <a href="VERIFICATION.md">VERIFICATION.md</a>.</p></noscript>
+</main>
+
+<dialog id="venue" aria-labelledby="dlg-title"></dialog>
+
+<!-- Venue data is inlined by scripts/build_site.py from data/venues.json. If empty, it is fetched at runtime. -->
+<script id="venue-data" type="application/json">
+{"generated_on":"2026-10-03","nearby_radius_m":850,"secondary_check":{"source":"Hot Dinners closures tracker (2025-2026)","url":"https://www.hot-dinners.com/202303199148/Gastroblog/Latest-news/recent-restaurant-closures-shut-london","checked_on":"2026-10-03","result":"None of the listed venues appear as closed."},"venues":[{"id":"quality-chop-house","name":"Quality Chop House","category":"chop","highlight":false,"area":"Farringdon","address":"94 Farringdon Road, London EC1R 3EA","lat":51.5247707,"lng":-0.1100541,"website":"https://thequalitychophouse.com/","booking_url":"https://www.opentable.co.uk/the-quality-chop-house-reservations-london?restref=96150","price_band":"£££","groups_8plus":true,"group_notes":"Has a private room (see site). Check capacity and set-menu terms.","why":"Victorian working-class chop house (since 1869) with a famous confit potato and big sharing cuts.","nearby":["the-lamb","cittie-of-yorke","zetter-parlour"],"status":"trading","verified_on":"2026-10-03","evidence_url":"https://thequalitychophouse.com/","score":{"food":8,"character":10,"group":7,"meat":9,"total":8.45},"nearby_distances_m":{"the-lamb":649,"cittie-of-yorke":722,"zetter-parlour":464}},{"id":"st-john-smithfield","name":"St. JOHN Smithfield","category":"chop","highlight":true,"area":"Smithfield","address":"26 St John Street, London EC1M 4AY","lat":51.5204809,"lng":-0.1012748,"website":"https://stjohnrestaurant.com/a/restaurants/smithfield","booking_url":"https://stjohnrestaurant.com/a/restaurants/smithfield","price_band":"£££","groups_8plus":true,"group_notes":"Private events offered (see /pages/private-events). Large-format feasts for groups are worth asking about.","why":"Fergus Henderson's nose-to-tail temple; roast bone marrow and parsley salad is mandatory.","nearby":["fox-and-anchor","ye-olde-mitre","zetter-parlour","tayer-elementary"],"status":"trading","verified_on":"2026-10-03","evidence_url":"https://stjohnrestaurant.com/a/restaurants/smithfield","score":{"food":9,"character":9,"group":7,"meat":10,"total":8.75},"nearby_distances_m":{"fox-and-anchor":43,"ye-olde-mitre":479,"zetter-parlour":345,"tayer-elementary":843}},{"id":"ibai","name":"Ibai","category":"chop","highlight":false,"area":"Farringdon","address":"92 Bartholomew Close, London EC1A 7BN","lat":51.5181623,"lng":-0.0994888,"website":"https://ibai.london/","booking_url":"https://www.sevenrooms.com/landing/ibailondon","price_band":"££££","groups_8plus":false,"group_notes":"Group policy not stated online. Check with the venue.","why":"Basque grill house, ranked No. 7 in the World's 101 Best Steak Restaurants 2026 and Time Out's top London steak.","nearby":["fox-and-anchor","ye-olde-mitre","zetter-parlour","nickel-bar"],"status":"trading","verified_on":"2026-10-03","evidence_url":"https://www.timeout.com/london/news/9-london-steak-restaurants-have-been-named-in-the-101-best-in-the-world-for-2026-040126","score":{"food":9,"character":8,"group":6,"meat":10,"total":8.3},"nearby_distances_m":{"fox-and-anchor":264,"ye-olde-mitre":547,"zetter-parlour":630,"nickel-bar":819}},{"id":"hawksmoor-seven-dials","name":"Hawksmoor Seven Dials","category":"chop","highlight":true,"area":"Covent Garden","address":"11 Langley Street, London WC2H 9JG","lat":51.5134572,"lng":-0.1257487,"website":"https://thehawksmoor.com/locations/seven-dials/","booking_url":"https://thehawksmoor.com/book-a-table/?location=45565","price_band":"££££","groups_8plus":true,"group_notes":"Private dining rooms bookable via the Hawksmoor private-dining page.","why":"Flagship-feel Hawksmoor in a former brewery, with a strong bar for pre-dinner martinis.","nearby":["lamb-and-flag","the-salisbury","bar-termini-soho","three-sheets-soho"],"status":"trading","verified_on":"2026-10-03","evidence_url":"https://thehawksmoor.com/locations/seven-dials/","score":{"food":8,"character":8,"group":9,"meat":10,"total":8.5},"nearby_distances_m":{"lamb-and-flag":195,"the-salisbury":294,"bar-termini-soho":280,"three-sheets-soho":389}},{"id":"hawksmoor-guildhall","name":"Hawksmoor Guildhall","category":"chop","highlight":true,"area":"City","address":"10 Basinghall Street, London EC2V 5BQ","lat":51.5155147,"lng":-0.0909278,"website":"https://thehawksmoor.com/locations/guildhall/","booking_url":"https://thehawksmoor.com/book-a-table/?location=71086","price_band":"££££","groups_8plus":true,"group_notes":"Dedicated Guildhall private-dining rooms.","why":"City Hawksmoor with dark-wood booths, built for long business dinners.","nearby":["jamaica-wine-house","lamb-tavern","nickel-bar"],"status":"trading","verified_on":"2026-10-03","evidence_url":"https://thehawksmoor.com/locations/guildhall/","score":{"food":8,"character":8,"group":9,"meat":10,"total":8.5},"nearby_distances_m":{"jamaica-wine-house":474,"lamb-tavern":607,"nickel-bar":208}},{"id":"hawksmoor-st-pancras","name":"Hawksmoor St Pancras","category":"chop","highlight":true,"area":"King's Cross","address":"St Pancras London, Euston Road, London NW1 2AR","lat":51.529901,"lng":-0.1258012,"website":"https://thehawksmoor.com/locations/st-pancras/","booking_url":"https://thehawksmoor.com/book-a-table/?location=450966","price_band":"££££","groups_8plus":true,"group_notes":"Dedicated St Pancras private-dining page.","why":"Newest Hawksmoor (opened late 2025) in the Gothic St Pancras hotel. The highest-ranked Hawksmoor in the 2026 World's 101 Best Steak list.","nearby":["euston-tap","booking-office-1869"],"status":"trading","verified_on":"2026-10-03","evidence_url":"https://thehawksmoor.com/locations/st-pancras/","score":{"food":8,"character":9,"group":9,"meat":10,"total":8.75},"nearby_distances_m":{"euston-tap":576,"booking-office-1869":23}},{"id":"blacklock-soho","name":"Blacklock Soho","category":"chop","highlight":false,"area":"Soho","address":"24 Great Windmill Street, London W1D 7LG","lat":51.5117726,"lng":-0.1346407,"website":"https://theblacklock.com/restaurants/blacklock-soho/","booking_url":"https://theblacklock.com/soho-reservations/","price_band":"££","groups_8plus":false,"group_notes":"Group policy not stated online. Ask about 'All In' sharing for big tables.","why":"Basement chop house: piles of skinny chops on toast at sane prices.","nearby":["french-house","dog-and-duck","bar-termini-soho","three-sheets-soho"],"status":"trading","verified_on":"2026-10-03","evidence_url":"https://theblacklock.com/restaurants/blacklock-soho/","score":{"food":7,"character":7,"group":6,"meat":10,"total":7.25},"nearby_distances_m":{"french-house":228,"dog-and-duck":309,"bar-termini-soho":396,"three-sheets-soho":417}},{"id":"blacklock-city","name":"Blacklock City","category":"chop","highlight":false,"area":"City","address":"13 Philpot Lane, London EC3M 8AA","lat":51.5108697,"lng":-0.0841331,"website":"https://theblacklock.com/restaurants/city/","booking_url":"https://theblacklock.com/city-reservations/","price_band":"££","groups_8plus":false,"group_notes":"Group policy not stated online. Email cityreservations@theblacklock.com.","why":"Bigger City Blacklock in an old bank vault, with the same chops and a Sunday roast that has a cult following.","nearby":["lamb-tavern","jamaica-wine-house","nickel-bar"],"status":"trading","verified_on":"2026-10-03","evidence_url":"https://theblacklock.com/restaurants/city/","score":{"food":7,"character":7,"group":7,"meat":10,"total":7.45},"nearby_distances_m":{"lamb-tavern":228,"jamaica-wine-house":244,"nickel-bar":517}},{"id":"brat","name":"Brat","category":"chop","highlight":false,"area":"Shoreditch","address":"First floor, 4 Redchurch Street, London E1 6JL","lat":51.5242656,"lng":-0.0766909,"website":"https://bratrestaurant.co.uk/redchurch-st","booking_url":"https://www.sevenrooms.com/reservations/bratshoreditch","price_band":"£££","groups_8plus":false,"group_notes":"Small room, online booking only. Book 6-8 weeks ahead for weekends and pre-order the whole turbot.","why":"Tomos Parry's Michelin-starred wood-fire grill. No. 17 in the World's 101 Best Steak Restaurants 2026.","nearby":["pride-of-spitalfields","seed-library"],"status":"trading","verified_on":"2026-10-03","evidence_url":"https://guide.michelin.com/mt/en/greater-london/london/restaurant/brat","score":{"food":10,"character":8,"group":5,"meat":8,"total":8.2},"nearby_distances_m":{"pride-of-spitalfields":704,"seed-library":158}},{"id":"guinea-grill","name":"The Guinea Grill","category":"chop","highlight":true,"area":"Mayfair","address":"30 Bruton Place, London W1J 6NL","lat":51.5111247,"lng":-0.1450479,"website":"https://www.theguinea.co.uk/","booking_url":"","price_band":"£££","groups_8plus":true,"group_notes":"Three private rooms: Gallery (10), Wine Room (14), Boardroom (20). Book by phone or email (020 7409 1728).","why":"Mayfair pub-steakhouse with award-winning steak and kidney pies and a proper bar at the front.","nearby":["the-audley","red-lion-st-james","donovan-bar","connaught-bar"],"status":"trading","verified_on":"2026-10-03","evidence_url":"https://www.theguinea.co.uk/","score":{"food":8,"character":10,"group":9,"meat":10,"total":9.0},"nearby_distances_m":{"the-audley":490,"red-lion-st-james":674,"donovan-bar":302,"connaught-bar":372}},{"id":"goodman-mayfair","name":"Goodman Mayfair","category":"chop","highlight":false,"area":"Mayfair","address":"24-26 Maddox Street, London W1S 1QH","lat":51.5132239,"lng":-0.1419269,"website":"https://www.goodmanrestaurants.com/mayfair","booking_url":"https://www.sevenrooms.com/explore/goodmanmayfair/reservations/create/search","price_band":"££££","groups_8plus":true,"group_notes":"Private dining offered (goodmanrestaurants.com/private-dining).","why":"New York-style steakhouse with in-house dry-ageing and a serious red wine list.","nearby":["red-lion-st-james","dog-and-duck","donovan-bar","connaught-bar"],"status":"trading","verified_on":"2026-10-03","evidence_url":"https://www.goodmanrestaurants.com/mayfair","score":{"food":8,"character":7,"group":8,"meat":10,"total":8.05},"nearby_distances_m":{"red-lion-st-james":664,"dog-and-duck":695,"donovan-bar":461,"connaught-bar":665}},{"id":"goodman-city","name":"Goodman City","category":"chop","highlight":false,"area":"City","address":"11 Old Jewry, London EC2R 8DU","lat":51.5142317,"lng":-0.0907172,"website":"https://www.goodmanrestaurants.com/city","booking_url":"https://www.sevenrooms.com/reservations/goodmancity","price_band":"££££","groups_8plus":true,"group_notes":"Private dining offered (goodmanrestaurants.com/private-dining).","why":"City outpost of Goodman: same dry-aged beef, built for expense-account tables.","nearby":["jamaica-wine-house","lamb-tavern","nickel-bar"],"status":"trading","verified_on":"2026-10-03","evidence_url":"https://www.goodmanrestaurants.com/city","score":{"food":8,"character":7,"group":8,"meat":10,"total":8.05},"nearby_distances_m":{"jamaica-wine-house":389,"lamb-tavern":538,"nickel-bar":73}},{"id":"lutyens-grill","name":"Lutyens Grill","category":"chop","highlight":true,"area":"City","address":"The Ned, 27 Poultry, London EC2R 8AJ","lat":51.5137266,"lng":-0.090038,"website":"https://www.thened.com/london/restaurants/lutyens-grill","booking_url":"https://www.thened.com/london/restaurants/lutyens-grill","price_band":"££££","groups_8plus":true,"group_notes":"Parties of 7+ can book online. Unlimited prime rib on Fridays and Sundays. Open to non-members.","why":"Wood-panelled former bank manager's office with trolley carving. No. 35 in the World's 101 Best Steak Restaurants.","nearby":["jamaica-wine-house","lamb-tavern","nickel-bar"],"status":"trading","verified_on":"2026-10-03","evidence_url":"https://www.thened.com/london/restaurants/lutyens-grill","score":{"food":8,"character":10,"group":8,"meat":10,"total":8.8},"nearby_distances_m":{"jamaica-wine-house":326,"lamb-tavern":478,"nickel-bar":0}},{"id":"the-devonshire","name":"The Devonshire","category":"chop","highlight":true,"area":"Soho","address":"17 Denman Street, London W1D 7HW","lat":51.5106407,"lng":-0.1353307,"website":"https://www.devonshiresoho.co.uk/","booking_url":"https://onsass.designmynight.com/?background-color=%2334533b&primary-color=%23ffffff&body-text-color=%23ffffff&outer-border-color=white","price_band":"£££","groups_8plus":true,"group_notes":"Private events: privateevents@devonshiresoho.co.uk (events brochure on site).","why":"London's hottest pub-grill: perfect Guinness downstairs and a wood-fired grill room upstairs. No. 45 in the World's 101 Best Steak Restaurants.","nearby":["red-lion-st-james","french-house","donovan-bar","bar-termini-soho"],"status":"trading","verified_on":"2026-10-03","evidence_url":"https://www.devonshiresoho.co.uk/","score":{"food":9,"character":9,"group":8,"meat":9,"total":8.8},"nearby_distances_m":{"red-lion-st-james":265,"french-house":341,"donovan-bar":504,"bar-termini-soho":510}},{"id":"holborn-dining-room","name":"Holborn Dining Room","category":"chop","highlight":false,"area":"Holborn","address":"Rosewood London, 252 High Holborn, London WC1V 7EN","lat":51.5174168,"lng":-0.1182219,"website":"https://holborndiningroom.com/","booking_url":"https://www.sevenrooms.com/reservations/rwldnholborndiningroom","price_band":"£££","groups_8plus":true,"group_notes":"Rosewood London offers group bookings and event spaces. Ask about the private dining room.","why":"Grand British brasserie famous for its pies and Scotch eggs. Scarfes Bar is across the courtyard.","nearby":["cittie-of-yorke","the-lamb","scarfes-bar","american-bar-savoy"],"status":"trading","verified_on":"2026-10-03","evidence_url":"https://www.rosewoodhotels.com/en/london/dining/holborn-dining-room","score":{"food":8,"character":8,"group":8,"meat":8,"total":8.0},"nearby_distances_m":{"cittie-of-yorke":394,"the-lamb":632,"scarfes-bar":0,"american-bar-savoy":825}},{"id":"kitty-fishers","name":"Kitty Fisher's","category":"chop","highlight":false,"area":"Mayfair","address":"10 Shepherd Market, London W1J 7QF","lat":51.5065224,"lng":-0.146262,"website":"https://www.kittyfishers.com/","booking_url":"https://www.sevenrooms.com/reservations/kittyfishers","price_band":"£££","groups_8plus":true,"group_notes":"Private hire offered (/private-hire).","why":"Cosy, clubby Shepherd Market wood-grill room known for aged beef.","nearby":["the-audley","red-lion-st-james","rivoli-bar","donovan-bar"],"status":"trading","verified_on":"2026-10-03","evidence_url":"https://www.kittyfishers.com/","score":{"food":8,"character":8,"group":7,"meat":9,"total":7.95},"nearby_distances_m":{"the-audley":508,"red-lion-st-james":713,"rivoli-bar":342,"donovan-bar":401}},{"id":"savoy-grill","name":"Savoy Grill","category":"chop","highlight":true,"area":"Strand","address":"The Savoy, Strand, London WC2R 0EU","lat":51.5101273,"lng":-0.1204993,"website":"https://www.thesavoylondon.com/restaurants-and-bars/savoy-grill","booking_url":"https://www.opentable.co.uk/r/savoy-grill-gordon-ramsay-london","price_band":"££££","groups_8plus":true,"group_notes":"Private dining and events page run by Gordon Ramsay Restaurants. Ask about the beef Wellington masterclass.","why":"Art-deco grill room serving beef Wellington and trolley classics, with the American Bar upstairs.","nearby":["the-harp","lamb-and-flag","american-bar-savoy","bar-termini-soho"],"status":"trading","verified_on":"2026-10-03","evidence_url":"https://www.thesavoylondon.com/restaurants-and-bars/savoy-grill","score":{"food":8,"character":10,"group":8,"meat":9,"total":8.65},"nearby_distances_m":{"the-harp":383,"lamb-and-flag":400,"american-bar-savoy":0,"bar-termini-soho":753}},{"id":"mountain","name":"Mountain","category":"chop","highlight":false,"area":"Soho","address":"16-18 Beak Street, London W1F 9RD","lat":51.5119723,"lng":-0.1382219,"website":"https://mountainbeakstreet.com/","booking_url":"https://www.sevenrooms.com/reservations/mountain","price_band":"£££","groups_8plus":false,"group_notes":"Group policy not stated online. Email bookings@mountainbeakstreet.com.","why":"Tomos Parry's Soho follow-up to Brat: open-fire Welsh/Spanish cooking and big-ticket shared cuts.","nearby":["red-lion-st-james","french-house","donovan-bar","rivoli-bar"],"status":"trading","verified_on":"2026-10-03","evidence_url":"https://mountainbeakstreet.com/","score":{"food":9,"character":8,"group":6,"meat":8,"total":8.0},"nearby_distances_m":{"red-lion-st-james":423,"french-house":456,"donovan-bar":422,"rivoli-bar":575}},{"id":"rules","name":"Rules","category":"fine_dining","highlight":false,"area":"Covent Garden","address":"34-35 Maiden Lane, London WC2E 7LB","lat":51.5108285,"lng":-0.1231906,"website":"https://rules.co.uk/","booking_url":"https://www.sevenrooms.com/reservations/rules","price_band":"£££","groups_8plus":true,"group_notes":"Private rooms: the Graham Greene Room and the John Betjeman Room.","why":"London's oldest restaurant (1798): game from its own estate, pies and puddings in a room full of antlers.","nearby":["lamb-and-flag","the-harp","american-bar-savoy","bar-termini-soho"],"status":"trading","verified_on":"2026-10-03","evidence_url":"https://rules.co.uk/","score":{"food":7,"character":10,"group":9,"meat":9,"total":8.45},"nearby_distances_m":{"lamb-and-flag":198,"the-harp":233,"american-bar-savoy":201,"bar-termini-soho":554}},{"id":"wiltons","name":"Wiltons","category":"fine_dining","highlight":false,"area":"St James's","address":"55 Jermyn Street, London SW1Y 6LX","lat":51.5076994,"lng":-0.1392041,"website":"https://wiltons.co.uk/","booking_url":"https://www.sevenrooms.com/reservations/wiltons","price_band":"££££","groups_8plus":true,"group_notes":"Private dining offered (/private-dining). Jacket is the expected dress.","why":"Since 1742. The grandest old-school fish and game house in St James's.","nearby":["red-lion-st-james","french-house","rivoli-bar","dukes-bar"],"status":"trading","verified_on":"2026-10-03","evidence_url":"https://wiltons.co.uk/","score":{"food":8,"character":10,"group":8,"meat":7,"total":8.35},"nearby_distances_m":{"red-lion-st-james":208,"french-house":763,"rivoli-bar":163,"dukes-bar":249}},{"id":"ritz-restaurant","name":"The Ritz Restaurant","category":"fine_dining","highlight":false,"area":"Piccadilly","address":"The Ritz, 150 Piccadilly, London W1J 9BR","lat":51.5071911,"lng":-0.1414246,"website":"https://www.theritzlondon.com/dine-with-us/the-ritz-restaurant/","booking_url":"https://www.sevenrooms.com/explore/theritzrestaurant/reservations/create/search","price_band":"££££","groups_8plus":false,"group_notes":"Strict dress code (jacket and tie). Ask the hotel about private dining for 8+.","why":"The most opulent dining room in London, with Michelin-starred classical cooking and tableside carving.","nearby":["red-lion-st-james","the-audley","rivoli-bar","donovan-bar"],"status":"trading","verified_on":"2026-10-03","evidence_url":"https://www.theritzlondon.com/dine-with-us/the-ritz-restaurant/","score":{"food":9,"character":10,"group":6,"meat":7,"total":8.35},"nearby_distances_m":{"red-lion-st-james":371,"the-audley":759,"rivoli-bar":0,"donovan-bar":216}},{"id":"simpsons-in-the-strand","name":"Simpson's in the Strand","category":"fine_dining","highlight":true,"area":"Strand","address":"100 Strand, London WC2R 0EZ","lat":51.5105048,"lng":-0.1206359,"website":"https://www.simpsonsinthestrand.co.uk/","booking_url":"https://www.sevenrooms.com/explore/granddivan/reservations/create/search","price_band":"£££","groups_8plus":true,"group_notes":"Grand Divan (classic) and Romano's (relaxed). Large private ballroom.","why":"Reopened in March 2026 by Jeremy King. Roast-beef trolleys carved at the table in the Grand Divan.","nearby":["lamb-and-flag","the-harp","american-bar-savoy","bar-termini-soho"],"status":"trading","verified_on":"2026-10-03","evidence_url":"https://www.simpsonsinthestrand.co.uk/reservations/","score":{"food":7,"character":10,"group":9,"meat":10,"total":8.6},"nearby_distances_m":{"lamb-and-flag":374,"the-harp":382,"american-bar-savoy":43,"bar-termini-soho":724}},{"id":"scotts","name":"Scott's","category":"fine_dining","highlight":false,"area":"Mayfair","address":"20 Mount Street, London W1K 2HE","lat":51.5098163,"lng":-0.1509327,"website":"https://scotts-mayfair.com/","booking_url":"https://scotts_mayfair.capricebookings.com/","price_band":"££££","groups_8plus":true,"group_notes":"Private dining offered (/private-dining-at-scotts/). Booking page: card required, £50pp deposit for 4+.","why":"Glamorous Mayfair seafood institution with an oyster bar at its heart.","nearby":["the-audley","connaught-bar","donovan-bar"],"status":"trading","verified_on":"2026-10-03","evidence_url":"https://scotts-mayfair.com/","score":{"food":8,"character":9,"group":8,"meat":5,"total":7.8},"nearby_distances_m":{"the-audley":58,"connaught-bar":64,"donovan-bar":611}},{"id":"bentleys","name":"Bentley's Oyster Bar & Grill","category":"fine_dining","highlight":false,"area":"Piccadilly","address":"11-15 Swallow Street, London W1B 4DG","lat":51.5094977,"lng":-0.1377087,"website":"https://www.bentleys.org/","booking_url":"https://www.sevenrooms.com/explore/bentleys/reservations/create/search/","price_band":"£££","groups_8plus":true,"group_notes":"Private dining and events offered (/private-dining-events).","why":"Since 1916: Richard Corrigan's oyster bar and upstairs grill.","nearby":["red-lion-st-james","french-house","donovan-bar","rivoli-bar"],"status":"trading","verified_on":"2026-10-03","evidence_url":"https://www.bentleys.org/","score":{"food":8,"character":9,"group":8,"meat":6,"total":7.95},"nearby_distances_m":{"red-lion-st-james":157,"french-house":549,"donovan-bar":312,"rivoli-bar":363}},{"id":"j-sheekey","name":"J. Sheekey","category":"fine_dining","highlight":false,"area":"Covent Garden","address":"28-32 St Martin's Court, London WC2N 4AL","lat":51.5109233,"lng":-0.1276968,"website":"https://j-sheekey.co.uk/","booking_url":"https://www.opentable.co.uk/j-sheekey-the-restaurant-reservations-london?restref=111285","price_band":"£££","groups_8plus":true,"group_notes":"Private dining offered (/private-dining-events-at-j-sheekey/).","why":"Theatreland fish institution. The fish pie is the order.","nearby":["the-salisbury","lamb-and-flag","bar-termini-soho","three-sheets-soho"],"status":"trading","verified_on":"2026-10-03","evidence_url":"https://j-sheekey.co.uk/","score":{"food":8,"character":9,"group":8,"meat":5,"total":7.8},"nearby_distances_m":{"the-salisbury":38,"lamb-and-flag":162,"bar-termini-soho":337,"three-sheets-soho":482}},{"id":"sweetings","name":"Sweetings","category":"fine_dining","highlight":false,"area":"City","address":"39 Queen Victoria Street, London EC4N 4SF","lat":51.512397,"lng":-0.0927667,"website":"http://www.sweetingsrestaurant.co.uk/","booking_url":"","price_band":"£££","groups_8plus":false,"group_notes":"Lunch only, Mon-Fri 11:30-15:00. No reservations: arrive before noon. Not suitable for a booked group dinner.","why":"Fish restaurant in the City since 1889. Black Velvet in tankards and counter seating.","nearby":["jamaica-wine-house","lamb-tavern","nickel-bar"],"status":"trading","verified_on":"2026-10-03","evidence_url":"https://www.cityam.com/a-love-letter-to-sweetings-the-citys-oldest-restaurant/","score":{"food":7,"character":10,"group":3,"meat":4,"total":6.5},"nearby_distances_m":{"jamaica-wine-house":504,"lamb-tavern":659,"nickel-bar":239}},{"id":"charlies-browns","name":"Charlie's at Brown's","category":"fine_dining","highlight":false,"area":"Mayfair","address":"Brown's Hotel, Albemarle Street, London W1S 4BP","lat":51.5090781,"lng":-0.1421697,"website":"https://www.roccofortehotels.com/hotels-and-resorts/brown-s-hotel/dining/charlies-at-browns/","booking_url":"https://www.roccofortehotels.com/hotels-and-resorts/brown-s-hotel/dining/charlies-at-browns/","price_band":"££££","groups_8plus":false,"group_notes":"Book via the widget on the hotel page or reservations.browns@roccofortehotels.com. Ask about group menus.","why":"Adam Byatt's trolley-service British dining room, with the Donovan Bar next door.","nearby":["red-lion-st-james","the-audley","donovan-bar","rivoli-bar"],"status":"trading","verified_on":"2026-10-03","evidence_url":"https://www.roccofortehotels.com/hotels-and-resorts/brown-s-hotel/dining/charlies-at-browns/","score":{"food":8,"character":9,"group":6,"meat":8,"total":7.85},"nearby_distances_m":{"red-lion-st-james":408,"the-audley":661,"donovan-bar":0,"rivoli-bar":216}},{"id":"arlington","name":"Arlington","category":"fine_dining","highlight":false,"area":"St James's","address":"Arlington House, 20 Arlington Street, London SW1A 1RJ","lat":51.5064801,"lng":-0.140511,"website":"https://www.arlington.london/","booking_url":"https://www.sevenrooms.com/reservations/arlingtonrestaurant","price_band":"£££","groups_8plus":true,"group_notes":"Private events offered (/private-events/).","why":"Jeremy King's revival of the old Le Caprice room. Polished, buzzy, with live piano at night.","nearby":["red-lion-st-james","the-audley","rivoli-bar","dukes-bar"],"status":"trading","verified_on":"2026-10-03","evidence_url":"https://www.arlington.london/","score":{"food":7,"character":9,"group":8,"meat":6,"total":7.55},"nearby_distances_m":{"red-lion-st-james":353,"the-audley":848,"rivoli-bar":101,"dukes-bar":136}},{"id":"kerridges","name":"Kerridge's Bar & Grill","category":"fine_dining","highlight":false,"area":"Whitehall","address":"Corinthia London, 10 Northumberland Avenue, London WC2N 5AE","lat":51.5065322,"lng":-0.1238974,"website":"https://www.corinthia.com/en-gb/london/kerridges/","booking_url":"https://www.sevenrooms.com/explore/kerridgesatcorinthia/reservations/create/search/","price_band":"££££","groups_8plus":true,"group_notes":"Corinthia meetings and events team handles groups.","why":"Tom Kerridge's grand British grill room: rotisserie, pies and a big bar.","nearby":["the-harp","the-salisbury","american-bar-savoy"],"status":"trading","verified_on":"2026-10-03","evidence_url":"https://www.corinthia.com/en-gb/london/kerridges/","score":{"food":8,"character":8,"group":8,"meat":9,"total":8.15},"nearby_distances_m":{"the-harp":375,"the-salisbury":541,"american-bar-savoy":463}},{"id":"boisdale-belgravia","name":"Boisdale of Belgravia","category":"fine_dining","highlight":false,"area":"Belgravia","address":"15 Eccleston Street, London SW1W 9LX","lat":51.4943218,"lng":-0.1481672,"website":"https://www.boisdale.co.uk/restaurant/belgravia","booking_url":"","price_band":"£££","groups_8plus":true,"group_notes":"Private dining rooms and published group menus. Book by phone (020 7730 6922) or reservations@boisdale.co.uk.","why":"Scottish steak and whisky house with a cigar terrace and live music six nights a week.","nearby":["star-tavern","goring-bar"],"status":"trading","verified_on":"2026-10-03","evidence_url":"https://www.boisdale.co.uk/restaurant/belgravia","score":{"food":7,"character":9,"group":9,"meat":9,"total":8.2},"nearby_distances_m":{"star-tavern":703,"goring-bar":409}},{"id":"ye-olde-mitre","name":"Ye Olde Mitre","category":"pub","highlight":true,"area":"Hatton Garden","address":"1 Ely Court, Ely Place, London EC1N 6SJ","lat":51.518440199467,"lng":-0.107387347221,"website":"https://www.yeoldemitreholborn.co.uk/","booking_url":"","price_band":"","group_notes":"","why":"Hidden 1546-founded tavern in an alley. CAMRA East London & City Pub of the Year 2025, nationally important interior.","nearby":[],"status":"trading","verified_on":"2026-10-03","evidence_url":"https://camra.org.uk/pubs/olde-mitre-london-156323"},{"id":"fox-and-anchor","name":"Fox & Anchor","category":"pub","highlight":false,"area":"Smithfield","address":"115 Charterhouse Street, London EC1M 6AA","lat":51.520426255194,"lng":-0.100646830688,"website":"https://www.foxandanchor.com/","booking_url":"","price_band":"","group_notes":"","why":"Art Nouveau Smithfield market pub with tiny snugs. CAMRA National Inventory (one star).","nearby":[],"status":"trading","verified_on":"2026-10-03","evidence_url":"https://camra.org.uk/pubs/fox-anchor-london-156298"},{"id":"cittie-of-yorke","name":"Cittie of Yorke","category":"pub","highlight":true,"area":"Holborn","address":"22 High Holborn, London WC1V 6BN","lat":51.5185,"lng":-0.1128,"website":"","booking_url":"","price_band":"","group_notes":"","why":"Vast mock-medieval hall with drinking booths and Sam Smith's prices. CAMRA National Inventory (three star).","nearby":[],"status":"trading","verified_on":"2026-10-03","evidence_url":"https://camra.org.uk/pubs/cittie-of-yorke-london-125495"},{"id":"the-lamb","name":"The Lamb","category":"pub","highlight":true,"area":"Bloomsbury","address":"94 Lamb's Conduit Street, London WC1N 3LZ","lat":51.5230834,"lng":-0.1190469,"website":"https://www.thelamblondon.com/","booking_url":"","price_band":"","group_notes":"","why":"Victorian snob screens intact. Young's cask. CAMRA National Inventory (one star).","nearby":[],"status":"trading","verified_on":"2026-10-03","evidence_url":"https://camra.org.uk/pubs/lamb-london-125487"},{"id":"ye-olde-cheshire-cheese","name":"Ye Olde Cheshire Cheese","category":"pub","highlight":true,"area":"Fleet Street","address":"145 Fleet Street, London EC4A 2BU","lat":51.514360090815,"lng":-0.107158601189,"website":"","booking_url":"","price_band":"","group_notes":"","why":"Rebuilt after the Great Fire of 1666. Warren of fire-lit rooms, Dickens's local. CAMRA National Inventory (three star).","nearby":[],"status":"trading","verified_on":"2026-10-03","evidence_url":"https://camra.org.uk/pubs/olde-cheshire-cheese-london-156637"},{"id":"black-friar","name":"The Black Friar","category":"pub","highlight":true,"area":"Blackfriars","address":"174 Queen Victoria Street, London EC4V 4EG","lat":51.512112307297,"lng":-0.10371917791,"website":"https://www.nicholsonspubs.co.uk/restaurants/london/theblackfriarblackfriarslondon","booking_url":"","price_band":"","group_notes":"","why":"Arts and Crafts marble-and-mosaic friars everywhere. CAMRA National Inventory (three star).","nearby":[],"status":"trading","verified_on":"2026-10-03","evidence_url":"https://camra.org.uk/pubs/black-friar-london-156696"},{"id":"jamaica-wine-house","name":"Jamaica Wine House","category":"pub","highlight":false,"area":"Bank","address":"St Michael's Alley, Cornhill, London EC3V 9DS","lat":51.512893630619,"lng":-0.085519076057,"website":"https://www.jamaicawinehouse.co.uk/","booking_url":"","price_band":"","group_notes":"","why":"Victorian 'Jampot' on the site of London's first coffee house. CAMRA National Inventory (three star).","nearby":[],"status":"trading","verified_on":"2026-10-03","evidence_url":"https://camra.org.uk/pubs/jamaica-wine-house-london-156624"},{"id":"lamb-tavern","name":"Lamb Tavern","category":"pub","highlight":false,"area":"Leadenhall Market","address":"10-12 Leadenhall Market, London EC3V 1LR","lat":51.512848361683,"lng":-0.083267061342,"website":"https://www.lambtavernleadenhall.com/","booking_url":"","price_band":"","group_notes":"","why":"Grade II* pub in the middle of Leadenhall Market. CAMRA National Inventory (one star).","nearby":[],"status":"trading","verified_on":"2026-10-03","evidence_url":"https://camra.org.uk/pubs/lamb-tavern-london-156616"},{"id":"the-harp","name":"The Harp","category":"pub","highlight":true,"area":"Covent Garden","address":"47 Chandos Place, London WC2N 4HS","lat":51.509653,"lng":-0.125988,"website":"https://www.harpcoventgarden.com/","booking_url":"","price_band":"","group_notes":"","why":"Narrow cask-ale shrine and former CAMRA National Pub of the Year.","nearby":[],"status":"trading","verified_on":"2026-10-03","evidence_url":"https://camra.org.uk/pubs/harp-london-128660"},{"id":"lamb-and-flag","name":"Lamb & Flag","category":"pub","highlight":false,"area":"Covent Garden","address":"33 Rose Street, London WC2E 9EB","lat":51.5117,"lng":-0.1257,"website":"https://www.lambandflagcoventgarden.co.uk/","booking_url":"","price_band":"","group_notes":"","why":"Timber-framed, licensed since 1623, once the 'Bucket of Blood'. CAMRA National Inventory (three star).","nearby":[],"status":"trading","verified_on":"2026-10-03","evidence_url":"https://camra.org.uk/pubs/lamb-flag-london-128715"},{"id":"the-salisbury","name":"The Salisbury","category":"pub","highlight":false,"area":"Covent Garden","address":"90 St Martin's Lane, London WC2N 4AP","lat":51.51096,"lng":-0.127146,"website":"","booking_url":"","price_band":"","group_notes":"","why":"Glittering 1898 gin-palace glass and Art Nouveau lamps. CAMRA National Inventory (three star).","nearby":[],"status":"trading","verified_on":"2026-10-03","evidence_url":"https://camra.org.uk/pubs/salisbury-london-128829"},{"id":"red-lion-st-james","name":"Red Lion","category":"pub","highlight":true,"area":"St James's","address":"2 Duke of York Street, London SW1Y 6JP","lat":51.508344,"lng":-0.136379,"website":"","booking_url":"","price_band":"","group_notes":"","why":"Tiny Victorian jewel box of etched and cut mirrors. CAMRA National Inventory.","nearby":[],"status":"trading","verified_on":"2026-10-03","evidence_url":"https://camra.org.uk/pubs/red-lion-london-128701"},{"id":"the-audley","name":"The Audley","category":"pub","highlight":false,"area":"Mayfair","address":"43 Mount Street, London W1K 2RX","lat":51.509603,"lng":-0.151698,"website":"https://theaudleypublichouse.com/","booking_url":"","price_band":"","group_notes":"","why":"Grade II 1889 Victorian pub revamped by Artfarm, with a Phyllida Barlow ceiling. Listed on CAMRA's Pub Heritage site; not National Inventory.","nearby":[],"status":"trading","verified_on":"2026-10-03","evidence_url":"https://pubheritage.camra.org.uk/pubs/2131"},{"id":"dog-and-duck","name":"Dog & Duck","category":"pub","highlight":false,"area":"Soho","address":"18 Bateman Street, London W1D 3AJ","lat":51.514006828999,"lng":-0.131962338623,"website":"https://www.nicholsonspubs.co.uk/restaurants/london/thedogandducksoholondon","booking_url":"","price_band":"","group_notes":"","why":"1897 tiles and mirrors, Orwell's Soho local. CAMRA National Inventory.","nearby":[],"status":"trading","verified_on":"2026-10-03","evidence_url":"https://camra.org.uk/pubs/dog-duck-london-128663"},{"id":"french-house","name":"The French House","category":"pub","highlight":true,"area":"Soho","address":"49 Dean Street, London W1D 5BG","lat":51.512755085185,"lng":-0.131742915344,"website":"https://www.frenchhousesoho.com/","booking_url":"","price_band":"","group_notes":"","why":"Soho's bohemian institution: half pints only, Ricard and wine. CAMRA National Inventory (two star). No cask ale.","nearby":[],"status":"trading","verified_on":"2026-10-03","evidence_url":"https://camra.org.uk/pubs/french-house-london-129160"},{"id":"euston-tap","name":"Euston Tap","category":"pub","highlight":false,"area":"Euston","address":"West & East Lodges, 190 Euston Road, London NW1 2EF","lat":51.5269,"lng":-0.1326,"website":"https://eustontap.com/","booking_url":"","price_band":"","group_notes":"","why":"Craft and cask house in the Grade II lodges of the old Euston Arch.","nearby":[],"status":"trading","verified_on":"2026-10-03","evidence_url":"https://camra.org.uk/pubs/euston-tap-london-125165"},{"id":"star-tavern","name":"Star Tavern","category":"pub","highlight":true,"area":"Belgravia","address":"6 Belgrave Mews West, London SW1X 8HT","lat":51.498487,"lng":-0.155825,"website":"https://www.star-tavern-belgravia.co.uk/","booking_url":"","price_band":"","group_notes":"","why":"Mews pub in every Good Beer Guide edition (45-year certificate, 2017). Reputedly where the Great Train Robbery was planned.","nearby":[],"status":"trading","verified_on":"2026-10-03","evidence_url":"https://camra.org.uk/pubs/star-tavern-london-128650"},{"id":"pride-of-spitalfields","name":"Pride of Spitalfields","category":"pub","highlight":false,"area":"Spitalfields","address":"3 Heneage Street, London E1 5LJ","lat":51.51893633098,"lng":-0.071185195107,"website":"","booking_url":"","price_band":"","group_notes":"","why":"Tiny no-frills free house off Brick Lane. Listed in the current Good Beer Guide per CAMRA WhatPub.","nearby":[],"status":"trading","verified_on":"2026-10-03","evidence_url":"https://camra.org.uk/pubs/pride-of-spitalfields-london-155017"},{"id":"connaught-bar","name":"Connaught Bar","category":"cocktail_bar","highlight":true,"area":"Mayfair","address":"The Connaught, Carlos Place, London W1K 2AL","lat":51.5101816,"lng":-0.1502153,"website":"https://www.maybourne.com/en/hotels/the-connaught/restaurants-bars/connaught-bar","booking_url":"","price_band":"","group_notes":"","why":"No. 6 in the World's 50 Best Bars 2025. Martini trolley theatre.","nearby":[],"status":"trading","verified_on":"2026-10-03","evidence_url":"https://www.timeout.com/london/news/its-official-4-london-bars-are-in-the-50-best-in-the-world-right-now-100825"},{"id":"scarfes-bar","name":"Scarfes Bar","category":"cocktail_bar","highlight":true,"area":"Holborn","address":"Rosewood London, 252 High Holborn, London WC1V 7EN","lat":51.5174168,"lng":-0.1182219,"website":"https://www.rosewoodhotels.com/en/london/dining/scarfes-bar","booking_url":"","price_band":"","group_notes":"","why":"World's 50 Best Bars No. 31 (2025) and No. 77 on the 2026 51-100 list. Library-bar armchairs and live jazz.","nearby":[],"status":"trading","verified_on":"2026-10-03","evidence_url":"https://www.timeout.com/london/news/worlds-50-best-bars-2026-longlist-scarfes-three-sheets-soho-092326"},{"id":"tayer-elementary","name":"Tayēr + Elementary","category":"cocktail_bar","highlight":true,"area":"Old Street","address":"152 Old Street, London EC1V 9BW","lat":51.5250193,"lng":-0.0915052,"website":"https://tayer-elementary.com/","booking_url":"","price_band":"","group_notes":"","why":"No. 5 in the World's 50 Best Bars 2025.","nearby":[],"status":"trading","verified_on":"2026-10-03","evidence_url":"https://www.timeout.com/london/news/its-official-4-london-bars-are-in-the-50-best-in-the-world-right-now-100825"},{"id":"three-sheets-soho","name":"Three Sheets Soho","category":"cocktail_bar","highlight":false,"area":"Soho","address":"13 Manette Street, London W1D 4AP","lat":51.5147523,"lng":-0.1309725,"website":"https://www.threesheets-bar.com/","booking_url":"","price_band":"","group_notes":"","why":"No. 73 on the World's 50 Best Bars 2026 51-100 list.","nearby":[],"status":"trading","verified_on":"2026-10-03","evidence_url":"https://www.timeout.com/london/news/worlds-50-best-bars-2026-longlist-scarfes-three-sheets-soho-092326"},{"id":"american-bar-savoy","name":"American Bar at The Savoy","category":"cocktail_bar","highlight":true,"area":"Strand","address":"The Savoy, Strand, London WC2R 0EZ","lat":51.5101273,"lng":-0.1204993,"website":"https://www.thesavoylondon.com/restaurants-and-bars/american-bar","booking_url":"","price_band":"","group_notes":"","why":"Oldest surviving cocktail bar in London and home of the Hanky Panky.","nearby":[],"status":"trading","verified_on":"2026-10-03","evidence_url":"https://www.thesavoylondon.com/restaurants-and-bars/american-bar"},{"id":"dukes-bar","name":"Dukes Bar","category":"cocktail_bar","highlight":true,"area":"St James's","address":"Dukes Hotel, 35-36 St James's Place, London SW1A 1NY","lat":51.5054602,"lng":-0.1394238,"website":"https://www.dukeshotel.com/dukesbar.html","booking_url":"","price_band":"","group_notes":"","why":"Ian Fleming's martini bar, mixed at your table. Two-drink limit.","nearby":[],"status":"trading","verified_on":"2026-10-03","evidence_url":"https://www.dukeshotel.com/dukesbar.html"},{"id":"donovan-bar","name":"Donovan Bar","category":"cocktail_bar","highlight":false,"area":"Mayfair","address":"Brown's Hotel, Albemarle Street, London W1S 4BP","lat":51.5090781,"lng":-0.1421697,"website":"https://www.roccofortehotels.com/hotels-and-resorts/brown-s-hotel/dining/donovan-bar/","booking_url":"","price_band":"","group_notes":"","why":"Classic Brown's Hotel cocktail bar lined with Terence Donovan photographs.","nearby":[],"status":"trading","verified_on":"2026-10-03","evidence_url":"https://www.roccofortehotels.com/hotels-and-resorts/brown-s-hotel/dining/donovan-bar/"},{"id":"rivoli-bar","name":"Rivoli Bar","category":"cocktail_bar","highlight":false,"area":"Piccadilly","address":"The Ritz, 150 Piccadilly, London W1J 9BR","lat":51.5071911,"lng":-0.1414246,"website":"https://www.theritzlondon.com/dine-with-us/rivoli-bar/","booking_url":"https://www.sevenrooms.com/explore/therivolibar/reservations/create/search","price_band":"","group_notes":"","why":"Art-deco cocktail bar inside the Ritz.","nearby":[],"status":"trading","verified_on":"2026-10-03","evidence_url":"https://www.theritzlondon.com/dine-with-us/rivoli-bar/"},{"id":"bar-termini-soho","name":"Bar Termini Soho","category":"cocktail_bar","highlight":false,"area":"Soho","address":"7 Old Compton Street, London W1D 5JE","lat":51.5136688,"lng":-0.1297828,"website":"https://bar-termini-soho.com/","booking_url":"","price_band":"","group_notes":"","why":"Tony Conigliaro's tiny Italian espresso-and-negroni bar.","nearby":[],"status":"trading","verified_on":"2026-10-03","evidence_url":"https://bar-termini-soho.com/"},{"id":"zetter-parlour","name":"The Parlour at The Zetter","category":"cocktail_bar","highlight":false,"area":"Clerkenwell","address":"The Zetter, St John's Square, London EC1M 4AJ","lat":51.5231282,"lng":-0.1038808,"website":"https://thezetter.com/clerkenwell/the-parlour/","booking_url":"","price_band":"","group_notes":"","why":"Eccentric Clerkenwell parlour bar, with live music on Tuesdays and Wednesdays.","nearby":[],"status":"trading","verified_on":"2026-10-03","evidence_url":"https://thezetter.com/clerkenwell/the-parlour/"},{"id":"booking-office-1869","name":"Booking Office 1869","category":"cocktail_bar","highlight":false,"area":"King's Cross","address":"St Pancras London, Euston Road, London NW1 2AR","lat":51.5301049,"lng":-0.125717,"website":"https://www.booking-office.co.uk/","booking_url":"","price_band":"","group_notes":"","why":"Cathedral-scale cocktail bar in the restored St Pancras ticket hall.","nearby":[],"status":"trading","verified_on":"2026-10-03","evidence_url":"https://www.booking-office.co.uk/"},{"id":"goring-bar","name":"The Cocktail Bar at The Goring","category":"cocktail_bar","highlight":false,"area":"Victoria","address":"The Goring, 15 Beeston Place, London SW1W 0JW","lat":51.4976151,"lng":-0.1455304,"website":"https://www.thegoring.com/food-drink/the-goring-cocktail-bar/","booking_url":"","price_band":"","group_notes":"","why":"Royal-warrant hotel bar, unchanged in the best way.","nearby":[],"status":"trading","verified_on":"2026-10-03","evidence_url":"https://www.thegoring.com/food-drink/the-goring-cocktail-bar/"},{"id":"nickel-bar","name":"The Nickel Bar","category":"cocktail_bar","highlight":false,"area":"City","address":"The Ned, 27 Poultry, London EC2R 8AJ","lat":51.5137266,"lng":-0.090038,"website":"https://www.thened.com/london/restaurants/the-nickel-bar","booking_url":"","price_band":"","group_notes":"","why":"American-style bar in the Ned's old banking hall, with live music every day.","nearby":[],"status":"trading","verified_on":"2026-10-03","evidence_url":"https://www.thened.com/london/restaurants/the-nickel-bar"},{"id":"seed-library","name":"Seed Library","category":"cocktail_bar","highlight":false,"area":"Shoreditch","address":"One Hundred Shoreditch, 100 Shoreditch High Street, London E1 6JQ","lat":51.5256536,"lng":-0.0772199,"website":"https://www.onehundredshoreditch.com/eat-drink/seed-library/","booking_url":"https://www.sevenrooms.com/reservations/seedlibrary","price_band":"","group_notes":"","why":"Mr Lyan's lo-fi basement cocktail bar.","nearby":[],"status":"trading","verified_on":"2026-10-03","evidence_url":"https://www.onehundredshoreditch.com/eat-drink/seed-library/"}]}
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"
+        integrity="sha512-BwHfrr4c9kmRkLw6iXFdzcdWV/PGkVgiIyIWLLlTSXzWQzxuSg4DiQUCpauz/EWjgk5TYQqX/kvn9pG1NpYfqg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/leaflet.markercluster.js"
+        integrity="sha512-OFs3W4DIZ5ZkrDhBFtsCP6JXtMEDGmhl0QPlmWYBJay40TT1n3gt2Xuw8Pf/iezgW9CdabjkNChRqozl/YADmg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+(async function () {
+  "use strict";
+
+  const CAT = {
+    chop:         { label: "Chop & steak", color: "--chop" },
+    fine_dining:  { label: "Fine dining",  color: "--fine" },
+    pub:          { label: "Tavern",       color: "--pub" },
+    cocktail_bar: { label: "Cocktail bar", color: "--bar" },
+  };
+  const RESTAURANT = new Set(["chop", "fine_dining"]);
+  const ORDER = ["pub", "cocktail_bar", "chop", "fine_dining"]; // order in "Nearby" lists
+  const MONTHS = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+  const MONTHS_LONG = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+  // Historic landmarks for orientation. Coordinates from OSM Nominatim, 2026-10-03.
+  const LANDMARKS = [
+    ["St Paul's", 51.5137872, -0.0984506], ["Tower of London", 51.508217, -0.0761879], ["Smithfield Market", 51.5193568, -0.1012706],
+    ["Leadenhall Market", 51.5127276, -0.0833953], ["Covent Garden", 51.5119791, -0.1227413], ["Bank of England", 51.5141618, -0.0889387],
+    ["Trafalgar Square", 51.5084502, -0.1284499], ["Westminster", 51.499387, -0.1244812], ["British Museum", 51.5193118, -0.1267051],
+    ["St Pancras", 51.5327196, -0.1270027], ["Buckingham Palace", 51.5008349, -0.1430045], ["Royal Courts of Justice", 51.5142194, -0.1132167],
+    ["Dickens's House", 51.5235936, -0.1163232], ["Spitalfields", 51.5196, -0.075363], ["Piccadilly Circus", 51.5101383, -0.133936],
+  ];
+  const css = (name) => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+
+  // ---------- data ----------
+  async function loadData() {
+    const raw = document.getElementById("venue-data").textContent.replace("<!-- VENUE-DATA -->", "").trim();
+    if (raw) return JSON.parse(raw);
+    const res = await fetch("data/venues.json", { cache: "no-cache" });
+    if (!res.ok) throw new Error("Could not load data/venues.json (" + res.status + ")");
+    return res.json();
+  }
+  let data;
+  try { data = await loadData(); }
+  catch (e) {
+    document.querySelector("main").innerHTML = '<p class="noscript">Could not load venue data: ' + String(e.message).replace(/[<&]/g, "") + "</p>";
+    return;
+  }
+  const venues = data.venues.filter((v) => v.status !== "closed");
+  const byId = new Map(venues.map((v) => [v.id, v]));
+  // Reverse links: which restaurants list each pub/bar as nearby
+  const nearOf = new Map();
+  for (const v of venues) for (const id of v.nearby || []) {
+    if (!nearOf.has(id)) nearOf.set(id, []);
+    nearOf.get(id).push(v.id);
+  }
+
+  // ---------- helpers ----------
+  const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  const safeUrl = (u) => (/^https?:\/\//i.test(u || "") ? u : "");
+  const ext = (href, text, cls) => `<a class="${cls}" href="${esc(href)}" target="_blank" rel="noopener noreferrer">${text}</a>`;
+  function fmtDate(iso) {
+    const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(iso || "");
+    return m ? `${m[3]} ${MONTHS[+m[2] - 1]} ${m[1]}` : "";
+  }
+  function fmtDateLong(iso) { // "3rd day of October, 2026"
+    const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(iso || "");
+    if (!m) return "";
+    const d = +m[3], sfx = d % 10 === 1 && d !== 11 ? "st" : d % 10 === 2 && d !== 12 ? "nd" : d % 10 === 3 && d !== 13 ? "rd" : "th";
+    return `${d}${sfx} day of ${MONTHS_LONG[+m[2] - 1]}, ${m[1]}`;
+  }
+  function distM(a, b) {
+    const R = 6371000, r = Math.PI / 180;
+    const dLat = (b.lat - a.lat) * r, dLng = (b.lng - a.lng) * r;
+    const h = Math.sin(dLat / 2) ** 2 + Math.cos(a.lat * r) * Math.cos(b.lat * r) * Math.sin(dLng / 2) ** 2;
+    return Math.round(2 * R * Math.asin(Math.sqrt(h)));
+  }
+  const walkMins = (m) => Math.max(1, Math.round((m * 1.25) / 80)); // straight line +25%, ~80 m/min
+  const hasCoords = (v) => Number.isFinite(v.lat) && Number.isFinite(v.lng) && (v.lat !== 0 || v.lng !== 0);
+
+  // ---------- charter: fill live figures from the data ----------
+  const fills = {
+    chop: venues.filter((v) => v.category === "chop").length,
+    fine: venues.filter((v) => v.category === "fine_dining").length,
+    radius: data.nearby_radius_m,
+    date: fmtDateLong(data.generated_on),
+  };
+  for (const el of document.querySelectorAll("[data-fill]")) if (fills[el.dataset.fill]) el.textContent = fills[el.dataset.fill];
+
+  // ---------- map ----------
+  const map = L.map("map", { zoomControl: true, minZoom: 11, maxZoom: 19 }).setView([51.5115, -0.118], 14);
+  L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    maxZoom: 19,
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap</a> contributors',
+  }).addTo(map);
+  // Keep Leaflet's size in sync with layout changes (rotation, header wrapping, view toggles)
+  new ResizeObserver(() => map.invalidateSize()).observe(document.getElementById("map"));
+
+  // Landmarks sit above the parchment wash but below the venue pins, and never take clicks
+  map.createPane("landmarks").style.zIndex = 450;
+  for (const [name, lat, lng] of LANDMARKS) {
+    L.marker([lat, lng], { pane: "landmarks", interactive: false, keyboard: false,
+      icon: L.divIcon({ className: "landmark", html: `<span>${esc(name)}</span>`, iconSize: [0, 0] }) }).addTo(map);
+  }
+  const syncLandmarks = () => map.getContainer().classList.toggle("hide-landmarks", map.getZoom() < 14);
+  map.on("zoomend", syncLandmarks);
+
+  const cluster = L.markerClusterGroup({ showCoverageOnHover: false, maxClusterRadius: 40, disableClusteringAtZoom: 16, spiderfyOnMaxZoom: true });
+  map.addLayer(cluster);
+
+  function pinIcon(v) {
+    const fill = v.status === "uncertain" ? css("--uncertain") : css(CAT[v.category].color);
+    const big = RESTAURANT.has(v.category);
+    const w = big ? 34 : 27, h = Math.round(w * 1.33);
+    const inner = v.highlight
+      ? `<path d="M16 7.2l2.6 5.3 5.8.8-4.2 4.1 1 5.8-5.2-2.7-5.2 2.7 1-5.8-4.2-4.1 5.8-.8z" fill="${css("--gold")}" stroke="#3a2a00" stroke-width=".8"/>`
+      : `<circle cx="16" cy="15" r="5" fill="#fbf3e2" stroke="#231b12" stroke-width=".8"/>`;
+    // Dark ink outline under a cream keyline so pins read on both light and dark tiles
+    const svg = `<svg width="${w}" height="${h}" viewBox="0 0 32 43" aria-hidden="true">
+      <path d="M16 1C8 1 1.5 7.3 1.5 15.2 1.5 26 16 42 16 42s14.5-16 14.5-26.8C30.5 7.3 24 1 16 1z" fill="none" stroke="#1a130b" stroke-width="3.2"/>
+      <path d="M16 1C8 1 1.5 7.3 1.5 15.2 1.5 26 16 42 16 42s14.5-16 14.5-26.8C30.5 7.3 24 1 16 1z" fill="${fill}" stroke="#fbf3e2" stroke-width="1.6"${v.status === "uncertain" ? ' opacity=".7"' : ""}/>
+      ${inner}</svg>`;
+    return L.divIcon({ className: "pin", html: svg, iconSize: [w, h], iconAnchor: [w / 2, h - 1] });
+  }
+
+  const markers = new Map();
+  for (const v of venues) {
+    if (!hasCoords(v)) continue; // never place a guessed coordinate
+    const m = L.marker([v.lat, v.lng], {
+      icon: pinIcon(v), title: v.name, alt: `${v.name} (${CAT[v.category].label})`, keyboard: true,
+      zIndexOffset: RESTAURANT.has(v.category) ? 500 : 0,
+    });
+    m.on("click", () => openVenue(v.id));
+    markers.set(v.id, m);
+  }
+
+  // ---------- filters ----------
+  const state = { cats: new Set(Object.keys(CAT)), highlight: false, groups: false, prices: new Set() };
+  function visible(v) {
+    if (!state.cats.has(v.category)) return false;
+    if (state.highlight && !v.highlight) return false;
+    if (RESTAURANT.has(v.category)) {
+      if (state.groups && !v.groups_8plus) return false;
+      if (state.prices.size && !state.prices.has(v.price_band)) return false;
+    }
+    return true;
+  }
+  function applyFilters() {
+    cluster.clearLayers();
+    const shown = venues.filter((v) => visible(v) && markers.has(v.id));
+    cluster.addLayers(shown.map((v) => markers.get(v.id)));
+    const r = shown.filter((v) => RESTAURANT.has(v.category)).length;
+    const p = shown.filter((v) => v.category === "pub").length;
+    const b = shown.filter((v) => v.category === "cocktail_bar").length;
+    document.getElementById("count").textContent = `${r} restaurants · ${p} taverns · ${b} bars`;
+    renderList();
+  }
+  for (const chip of document.querySelectorAll(".chip[data-cat]")) chip.addEventListener("click", () => {
+    const on = chip.getAttribute("aria-pressed") !== "true";
+    chip.setAttribute("aria-pressed", on);
+    on ? state.cats.add(chip.dataset.cat) : state.cats.delete(chip.dataset.cat);
+    applyFilters();
+  });
+  for (const chip of document.querySelectorAll(".chip[data-price]")) chip.addEventListener("click", () => {
+    const on = chip.getAttribute("aria-pressed") !== "true";
+    chip.setAttribute("aria-pressed", on);
+    on ? state.prices.add(chip.dataset.price) : state.prices.delete(chip.dataset.price);
+    applyFilters();
+  });
+  for (const [id, key] of [["f-highlight", "highlight"], ["f-groups", "groups"]]) {
+    const chip = document.getElementById(id);
+    chip.addEventListener("click", () => {
+      state[key] = chip.getAttribute("aria-pressed") !== "true";
+      chip.setAttribute("aria-pressed", state[key]);
+      applyFilters();
+    });
+  }
+
+  // ---------- dialog ----------
+  const dlg = document.getElementById("venue");
+  let lastFocus = null, currentId = null;
+
+  function nearbyItems(v) {
+    let ids = RESTAURANT.has(v.category) ? (v.nearby || []) : (nearOf.get(v.id) || []);
+    if (!ids.length && hasCoords(v)) { // pub/bar not in any restaurant's shortlist: show the closest restaurants instead
+      ids = venues.filter((o) => RESTAURANT.has(o.category) && hasCoords(o))
+        .map((o) => [distM(v, o), o.id]).filter(([d]) => d <= 1000).sort((a, b) => a[0] - b[0]).slice(0, 3).map(([, id]) => id);
+    }
+    return ids.map((id) => byId.get(id)).filter(Boolean)
+      .map((o) => ({ o, d: hasCoords(v) && hasCoords(o) ? distM(v, o) : null }))
+      .sort((a, b) => ORDER.indexOf(a.o.category) - ORDER.indexOf(b.o.category) || (a.d ?? 1e9) - (b.d ?? 1e9));
+  }
+
+  function renderDialog(v) {
+    const c = CAT[v.category];
+    const web = safeUrl(v.website), book = safeUrl(v.booking_url), ev = safeUrl(v.evidence_url);
+    const status = v.status === "trading"
+      ? `<span class="badge ok">Verified ${esc(fmtDate(v.verified_on))}</span>`
+      : `<span class="badge warn">⚠️ Uncertain: check before going</span>`;
+    const isR = RESTAURANT.has(v.category);
+    const dirs = hasCoords(v)
+      ? ext(`https://www.google.com/maps/dir/?api=1&destination=${v.lat},${v.lng}`, "Directions", "btn secondary")
+      : `<span class="btn missing">No location confirmed</span>`;
+    const webBtn = web ? ext(web, "Website", "btn") : `<span class="btn missing" title="No official website could be confirmed">⚠️ No website confirmed</span>`;
+    let bookBtn;
+    if (book) bookBtn = ext(book, "Book", "btn");
+    else if (isR) bookBtn = `<span class="btn missing" title="No online booking link could be confirmed">⚠️ Book by phone/email</span>`;
+    else bookBtn = `<span class="btn missing">No booking link</span>`;
+
+    const items = nearbyItems(v);
+    const nearHtml = items.length ? `<h3>${isR ? "Taverns &amp; bars nearby" : "Near these restaurants"}</h3><ul class="near">` +
+      items.map(({ o, d }) => `<li><button type="button" data-goto="${esc(o.id)}">
+        <span class="dot" style="background:var(${CAT[o.category].color})"></span>
+        <span class="nm">${esc(o.name)}${o.highlight ? ' <span class="star" aria-label="highlight">★</span>' : ""}<br><span class="small">${esc(CAT[o.category].label)} · ${esc(o.area)}</span></span>
+        ${d != null ? `<span class="d">${d} m · ~${walkMins(d)} min</span>` : ""}</button></li>`).join("") + "</ul>" : "";
+
+    dlg.innerHTML = `<div class="dlg">
+      <div class="dlg-head">
+        <div>
+          <h2 id="dlg-title">${esc(v.name)}${v.highlight ? ' <span class="star" aria-label="highlight">★</span>' : ""}</h2>
+          <div class="meta">
+            <span class="cat"><span class="dot" style="background:var(${c.color})"></span>${esc(c.label)}</span>
+            <span>${esc(v.area)}</span>
+            ${v.price_band ? `<span>${esc(v.price_band)}</span>` : ""}
+            ${isR && v.score ? `<span title="Food 40% · Character 25% · Groups 20% · Meat 15%">Score ${v.score.total.toFixed(2)}/10</span>` : ""}
+          </div>
+          <div class="meta">${status}</div>
+        </div>
+        <button type="button" class="close" aria-label="Close" data-close>×</button>
+      </div>
+      <div class="dlg-body">
+        <p class="why">${esc(v.why)}</p>
+        ${v.group_notes ? `<div class="notes"><strong>Groups${isR ? (v.groups_8plus ? " · 8+ catered for" : " · check for 8+") : ""}</strong>${esc(v.group_notes)}</div>` : ""}
+        <div class="actions">${webBtn}${bookBtn}${dirs}</div>
+        <p class="small">${esc(v.address)}${ev ? ` · ${ext(ev, "verification source", "")}` : ""}</p>
+        ${nearHtml}
+      </div></div>`;
+  }
+
+  function openVenue(id, { pan = false } = {}) {
+    const v = byId.get(id);
+    if (!v) return;
+    if (!dlg.open) lastFocus = document.activeElement;
+    currentId = id;
+    renderDialog(v);
+    if (!dlg.open) dlg.showModal();
+    dlg.querySelector(".dlg-body").scrollTop = 0;
+    dlg.querySelector("[data-close]").focus();
+    history.replaceState(null, "", "#" + encodeURIComponent(id));
+    if (pan && markers.has(id)) {
+      const m = markers.get(id);
+      if (!cluster.hasLayer(m)) { // reveal it even if filtered out
+        state.cats.add(v.category);
+        document.querySelector(`.chip[data-cat="${v.category}"]`)?.setAttribute("aria-pressed", "true");
+        if (state.highlight && !v.highlight) { state.highlight = false; document.getElementById("f-highlight").setAttribute("aria-pressed", "false"); }
+        applyFilters();
+      }
+      cluster.zoomToShowLayer(m, () => map.panTo(m.getLatLng()));
+    }
+  }
+  // Runs synchronously from every close path (the "close" event alone is deferred in background tabs). Idempotent.
+  function afterClose() {
+    // Only clear the hash if it still points at the venue being closed (a new #id may already be queued)
+    if (location.hash === "#" + encodeURIComponent(currentId)) history.replaceState(null, "", location.pathname + location.search);
+    if (lastFocus && document.contains(lastFocus)) lastFocus.focus();
+  }
+  function closeVenue() { if (dlg.open) { dlg.close(); afterClose(); } }
+  dlg.addEventListener("cancel", afterClose); // Esc key
+  dlg.addEventListener("close", afterClose);
+  dlg.addEventListener("click", (e) => {
+    if (e.target === dlg || e.target.closest("[data-close]")) return closeVenue();
+    const go = e.target.closest("[data-goto]");
+    if (go) { showView("map"); openVenue(go.dataset.goto, { pan: true }); }
+  });
+
+  // ---------- list view ----------
+  const PRICE_ORDER = { "££": 2, "£££": 3, "££££": 4 };
+  let sortKey = "score", sortDir = -1;
+  function nearestOf(v, cat) {
+    const ds = (v.nearby || []).map((id) => byId.get(id)).filter((o) => o && o.category === cat && hasCoords(o)).map((o) => distM(v, o));
+    return ds.length ? Math.min(...ds) : null;
+  }
+  const sortVal = {
+    score: (v) => v.score?.total ?? 0, name: (v) => v.name.toLowerCase(), category: (v) => v.category,
+    price: (v) => PRICE_ORDER[v.price_band] ?? 0, groups: (v) => (v.groups_8plus ? 1 : 0),
+    pub: (v) => nearestOf(v, "pub") ?? 1e9, bar: (v) => nearestOf(v, "cocktail_bar") ?? 1e9,
+  };
+  function renderList() {
+    const rows = venues.filter((v) => RESTAURANT.has(v.category) && visible(v));
+    rows.sort((a, b) => {
+      const x = sortVal[sortKey](a), y = sortVal[sortKey](b);
+      return (x > y ? 1 : x < y ? -1 : 0) * sortDir || a.name.localeCompare(b.name);
+    });
+    document.getElementById("rows").innerHTML = rows.map((v) => {
+      const p = nearestOf(v, "pub"), b = nearestOf(v, "cocktail_bar");
+      return `<tr tabindex="0" data-id="${esc(v.id)}">
+        <td class="num"><strong>${v.score ? v.score.total.toFixed(2) : ""}</strong></td>
+        <td class="namecell">${esc(v.name)}${v.highlight ? ' <span class="star" aria-label="highlight">★</span>' : ""}${v.status !== "trading" ? " ⚠️" : ""}<span class="sub">${esc(v.area)}</span></td>
+        <td class="hide-sm"><span class="dot" style="background:var(${CAT[v.category].color})"></span> ${esc(CAT[v.category].label)}</td>
+        <td class="price">${esc(v.price_band)}</td>
+        <td>${v.groups_8plus ? "Yes" : '<span class="small">check</span>'}</td>
+        <td class="num hide-sm">${p ?? "–"}</td>
+        <td class="num hide-sm">${b ?? "–"}</td></tr>`;
+    }).join("") || `<tr><td colspan="7" class="small">No restaurants match these filters.</td></tr>`;
+    for (const th of document.querySelectorAll("th[data-sort]"))
+      th.setAttribute("aria-sort", th.dataset.sort === sortKey ? (sortDir > 0 ? "ascending" : "descending") : "none");
+  }
+  for (const th of document.querySelectorAll("th[data-sort]")) th.querySelector("button").addEventListener("click", () => {
+    const k = th.dataset.sort;
+    if (sortKey === k) sortDir = -sortDir;
+    else { sortKey = k; sortDir = ["name", "category", "pub", "bar"].includes(k) ? 1 : -1; }
+    renderList();
+  });
+  const rowsEl = document.getElementById("rows");
+  const openRow = (tr) => { if (tr) { showView("map"); openVenue(tr.dataset.id, { pan: true }); } };
+  rowsEl.addEventListener("click", (e) => openRow(e.target.closest("tr[data-id]")));
+  rowsEl.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openRow(e.target.closest("tr[data-id]")); } });
+
+  // ---------- view toggle: map / list / charter ----------
+  const VIEWS = ["map", "list", "charter"];
+  function showView(which) {
+    for (const v of VIEWS) {
+      document.getElementById(v).hidden = v !== which;
+      document.getElementById("view-" + v).setAttribute("aria-pressed", v === which);
+    }
+    // Filters mean nothing on the Charter page
+    document.getElementById("filters").hidden = which === "charter";
+    document.getElementById("count").hidden = which === "charter";
+    if (which === "map") map.invalidateSize();
+    if (which === "charter") document.getElementById("charter").scrollTop = 0;
+  }
+  for (const v of VIEWS) document.getElementById("view-" + v).addEventListener("click", () => showView(v));
+
+  // ---------- go ----------
+  applyFilters();
+  const pts = venues.filter(hasCoords).map((v) => [v.lat, v.lng]);
+  if (pts.length) map.fitBounds(pts, { padding: [24, 24], maxZoom: 15 });
+  syncLandmarks();
+  // #venue-id deep links open that venue (shareable); #charter opens the Charter
+  function openFromHash() {
+    const id = decodeURIComponent(location.hash.slice(1));
+    if (id === "charter") return showView("charter");
+    if (id && byId.has(id)) { showView("map"); openVenue(id, { pan: true }); }
+  }
+  window.addEventListener("hashchange", openFromHash);
+  openFromHash();
+})();
+</script>
+</body>
+</html>
